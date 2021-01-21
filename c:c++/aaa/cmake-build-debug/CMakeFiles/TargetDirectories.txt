@@ -1,0 +1,3 @@
+/Users/apple/Programer/c:c++/aaa/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/apple/Programer/c:c++/aaa/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/apple/Programer/c:c++/aaa/cmake-build-debug/CMakeFiles/aaa.dir

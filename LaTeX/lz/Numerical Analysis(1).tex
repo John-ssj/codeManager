@@ -1,0 +1,648 @@
+%! TEX program = xelatex
+
+\documentclass[12pt]{report}
+
+\usepackage{bm}
+\usepackage{url}
+\usepackage{ctex}
+\usepackage{amsmath}
+\usepackage{xltxtra}
+\usepackage{geometry}
+\usepackage{mathtools}
+\usepackage[breaklinks,colorlinks,linkcolor=black,citecolor=black,urlcolor=black]{hyperref}
+\numberwithin{equation}{section}
+\geometry{a4paper,left=2cm,right=2cm,top=2cm,bottom=2cm}
+\title{Numerical Analysis}
+
+\author{娄峥}
+\date{\today}
+
+\begin{document}
+	\maketitle
+	\tableofcontents
+	
+	\clearpage
+
+	\section{Chapter One}
+	\subsection{计算方法特征}
+
+	\begin{enumerate}
+        \item 面向计算机，根据计算机的特点为计算机提供可行有效的算法，使其可以直接处理。
+        \item 有可靠的理论分析，可以任意逼近达到精度要求，对误差进行分析，建立在数理理论基础上。
+        \item 有比较好的计算复杂度，即算法的时间复杂度和空间复杂度尽可能低。
+        \item 有数值实验，满足前三者后通过数值实验进行验证。
+	\end{enumerate}
+	
+	\subsection{常用近似计算方法}
+	\subsubsection{离散化方法}
+	把连续型问题转化为离散型问题，因为计算机无法对连续型问题进行求解，为了使计算机可以正常运算，所以需要将连续型问题转化为离散型问题。最为常见的例子就是求定积分了。
+例 计算定积分  
+	例题 计算定积分
+	$$I = \int_{a}^{b} f(x)\, dx$$   
+
+	\text{ 将区间[a, b] n等分, $a = x_0 < x_1 < \ldots < x_n = b, x_i = x_0 + ih;i = 1, 2, \ldots, n;$ }  \\
+    \text{则对于每个小区间$[x_i, x_{i+1}]$, $S_i$我们可以用近似替代}  
+
+	\begin{equation}  
+		\begin{aligned}  
+			\begin{array}{c}  
+				S_{i} \approx \frac{h}{2}\left[f\left(x_{i-1}\right)+f\left(x_{i}\right)\right] \\
+				S=\sum_{i=1}^{n} S_{i} \approx \frac{h}{2} \sum_{i=1}^{h}\left[f\left(x_{i-1}\right)+f\left(x_{i}\right)\right]=\frac{h}{2}\left[f(a)+2 \sum_{i=1}^{n-1} f\left(x_{i}\right)+f(b)\right] \\
+				\int_{a}^{b} f(x) \mathrm{d} x \approx \frac{h}{2}\left[f(a)+2 \sum_{i=1}^{n-1} f\left(x_{i}\right)+f(b)\right]
+			\end{array}  
+		\end{aligned}  
+	\end{equation}
+
+	\subsubsection{递推化方法}
+	具体思路就是，将一项复杂的运算归纳为若干次简单的计算，且递推化的算法更加适合计算机进行运算。
+	
+	其典型的例子则是秦九韶算法：
+
+	$f(x)=a_{n} x^{n}+a_{n-1} x^{n-1}+\cdots+a_{1} x+a_{0}$ 
+	\begin{equation}
+		\begin{aligned}
+			f(x)&=a_{n} x^{n}+a_{n-1} x^{n-1}+\ldots+a_{1} x+a_{0} \\
+				&=\left(a_{n} x^{n-1}+a_{n-1} x^{n-2}+\ldots+a_{2} x+a_{1}\right) x+a_{0} \\
+				&=\left(\left(a_{n} x^{n-2}+a_{n-1} x^{n-3}+\ldots a_{3} x+a_{2}\right) x+a_{1}\right) x+a_{0} \\
+				&=\left(\ldots\left(\left(a_{n} x+a_{n-1}\right) x+a_{n-2}\right) x+\ldots+a_{1}\right) x+a_{0}
+		\end{aligned}
+	\end{equation}
+
+	求多项式的值时，首先计算最内层括号内一次多项式的值，即
+	$$
+	\begin{array}{l}
+		v_{0}=a_{n} \\
+		v_{1}=a_{n} x+a_{n-1} \\
+		\text{然后由内向外逐层计算一次多项式的值，即} \\
+		v_{2}=v_{1} x+a_{n-2} \\
+		v_{3}=v_{2} x+a_{n-3} \\
+		\vdots	\\
+		v_{n}=v_{n-1} x+a_{0}
+	\end{array}
+	$$
+
+	
+	\subsubsection{近似替代法}
+	许多的数学问题在有限次的运算里是无法求出解的，但可以化为在有限次运算可以得到有一定误差的解，比如说使用泰勒展开求e的近似解：  
+	\begin{equation}
+		\begin{aligned}
+			e^x &=& 1 + x + \frac{x^2}{2!} + \ldots + \frac{x^n}{n!} + \ldots \\
+			e &=& 1 + 1 + \frac{1}{2!} + \ldots + \frac{1}{n!} + \ldots \\
+			e &\approx& 1 + 1 + \frac{1}{2!} + \ldots + \frac{1}{n!}
+		\end{aligned}
+	\end{equation}
+
+	误差$R_h(x)$可以使用余项进行估计  
+	
+	\begin{equation}
+		\begin{aligned}
+			R_n(x) &=& e^x - \left(1 + x + \frac{x^2}{2!} + \ldots + \frac{x^n}{n!}\right) = \frac{f^{n+1}(\zeta)}{(n+1)!}, \zeta \in \left(0, 1\right)
+		\end{aligned}
+	\end{equation}
+	$$
+	|R_n(1)| \leq \frac{e}{(n+1)!} 
+	$$
+
+	\subsection{误差概念}
+
+	\subsubsection{误差来源}
+	\begin{enumerate}
+        \item 模型误差，考虑实际问题时将模型理想化。
+        \item 观测误差，观测结果与实际数据大小有误差。
+        \item 截断误差，理论精确值需要无数次运算，实际只使用了有限次运算。
+        \item 舍入误差，处理类似于无理数的时候，只能使用有限长的近似值替代。
+	\end{enumerate}
+
+	\subsubsection{误差相关定义}
+	假设某一量的精确值为x，其近似值为$x^*$  \\
+	绝对误差：  
+	$$
+	\varepsilon (x) = |x - x^*|
+	$$
+	存在一个数$\eta$满足
+	$$
+	\varepsilon (x) = |x - x^*| \leq \eta
+	$$
+	称$\eta$为近似值$x^*$的绝对误差限。
+	$$
+	x = x^* \pm \eta
+	$$
+	相对误差:
+	$$
+	\varepsilon_r = \frac{\varepsilon}{x^*} = \frac{x^* - x}{x^*}
+	$$
+	或
+	$$
+	\varepsilon_r = \frac{\varepsilon}{x^*} = \frac{x^* - x}{x^*}
+	$$
+	相对误差限:
+	$$
+	\varepsilon_r = \frac{\eta}{|x^*|}
+	$$  
+
+	若近似值$x^*$的绝对误差限小于等于某一位的半个单位，则成$x^*$精确到该位。
+	
+	$$
+	x^* = \pm 0.a_1 a_2 \ldots a_n \times 10^m
+	$$
+	$$
+	|x^* - x| \leq \frac{1}{2} \times 10^{m-l}, 1\leq l \leq n
+	$$
+	则称$x^*$有l位有效数字。  
+
+	设近似值$x^* = \pm 0.a_1 a_2 \ldots a_n \times 10^m$,共有n位有效数字,$a_1 \neq 0$,则其相对误差限为$\frac{1}{2a_1} \times 10^{-n+1}$。  
+
+	设近似值$x^* = \pm 0.a_1 a_2 \ldots a_n \times 10^m$,其相对误差限为$\frac{1}{2(a_1 + 1)} \times 10^{-n+1}$,$a_1 \neq 0$,则其有n位有效数字。  
+
+	\subsubsection{算术运算的误差}
+	
+	和的误差是误差之和，差的误差是误差之差。
+	$$
+	(x^* \pm y^*) - (x \pm y) = (x^* - x) \pm (y^* - y)
+	$$
+	因为
+	$$
+	|(x^* \pm y^*) - (x \pm y)| \leq |(x^* - x)| + |(y^* - y)|
+	$$
+	所以，误差限之和是和或差的误差限。
+
+	乘法误差
+	$$
+	|x^* y^* -xy| \leq |x^*| \eta (y^*) + |y^*| \eta (x^*) + \eta(x^*) \eta(y^*)
+	$$
+	忽略$\eta(x^*) \eta(y^*)$
+	$$
+	|x^* y^* -xy| \leq |x^*| \eta (y^*) + |y^*| \eta (x^*)
+	$$
+
+	除法误差
+	$$
+	|\frac{x^*}{y^*} - \frac{x}{y}| = |\frac{x^* y^* - x^* \varepsilon (y^*) - x^* y^* + y^* \varepsilon (x^*)}{y^* \left(y^* - \varepsilon(y^*)\right)}  \\
+	\leq \frac{|x^*|\eta (y^*) + |y^*|\eta(x^*)}{|y^*|^2 \left(1 - \frac{\eta(y^*)}{|y^*|}\right)}
+	$$
+	因为$\frac{\eta (y^*)}{|y^*|}$可忽略，所以：
+	$$
+	|\frac{x^*}{y^*} - \frac{x}{y}| \leq \frac{|x^*|\eta (y^*) + |y^*|\eta(x^*)}{|y^*|^2}
+	$$
+
+	综上所述  
+
+	\begin{equation} 
+		\begin{split}
+			&\eta\left(x^{*}+y^{*}\right)=\eta\left(x^{*}\right)+\eta\left(y^{\prime}\right)\\
+			&\eta\left(x^{*}-y^{2}\right)=\eta\left(x^{-}\right)-\eta\left(y^{*}\right)\\
+			&\left.\eta\left(x^{*} y^{*}\right) \approx x^{*}\left|\eta\left(y^{*}\right)+\right| y^{*}\right] \eta\left(x^{*}\right)\\
+			&\eta\left(\frac{x^{*}}{y^{*}}\right) \approx \frac{\left|x^{*}\right| \eta\left(y^{*}\right)+\left|y^{+}\right| n\left(x^{*}\right)}{\left|y^{2}\right|^{2}} \quad y \neq 0, y^{*} \neq 0
+		\end{split}
+	\end{equation}
+
+	\subsection{运算原则}
+	\begin{enumerate}
+        \item 加减运算  \\
+		近似数进行加减运算时，把小数中位数多的先四舍五入，使其比小数位数最少的数多一位，计算结果保留小数位数与原数位最少的数相同。
+        \item 乘除运算  \\
+        近似数相乘除时，各因子保留位数应比有效数字位最少的多一位，所得结果的有效数位数与原近似值中有效数字位数最少的位数至多少一位。
+        \item 乘方与开方运算  \\
+        近似数进行乘方或开方运算时，原有几位有效数字，结果就保留几位有效数字。
+        \item 对数运算  \\
+        进行对数运算时，所取对数的位数应与其真数有效数字位数相等。
+	\end{enumerate}
+
+	\section{Chapter Two}
+
+	\subsection{插值多项式}
+	所谓多项式插值问题就是要确定一个次数不高于的代数多项式  
+
+	\begin{equation}
+		p_n (x) = a_0+a_1x + a_1x^2 +...+ a_nx^n
+	\end{equation}  
+
+	满足  
+
+	\begin{equation}
+		p_n (x_i) = y_i \quad i = 0, 1, 2, \ldots , n
+	\end{equation}
+
+	\begin{equation}
+		\begin{cases}
+			p_n (x_0) = a_0 + a_1 x_0 + a_2 x_0^2 + \ldots + a_n x_0^n = y_0  \\
+			p_n (x_0) = a_0 + a_1 x_1 + a_2 x_1^2 + \ldots + a_n x_1^n = y_1 \\
+			\vdots  \\
+			p_n (x_0) = a_0 + a_1 x_n + a_2 x_n^2 + \ldots + a_n x_n^n = y_n
+		\end{cases}
+	\end{equation}
+
+	其系数矩阵的行列式是范德蒙行列式
+	\begin{equation}
+		\boldsymbol{V}=\left|\begin{array}{ccccc}
+		1 & x_{0} & x_{0}^{2} & \cdots & x_{0}^{n} \\
+		1 & x_{1} & x_{1}^{2} & \cdots & x_{1}^{n} \\
+		\vdots & \vdots & \vdots & \ddots & \vdots \\
+		1 & x_{n} & x_{n}^{2} & \cdots & x_{n}^{n}
+		\end{array}\right|=\prod_{0<i<j<n}\left(x_{j}-x_{i}\right)
+	\end{equation}
+
+	因为$x_i \neq x_j (i \neq j)$, 所以$V \neq 0$。所以线性方程式组(2,3)有唯一解。$p_n(x)$存在且唯一。
+
+	\subsection{Lagrange插值}
+
+	\subsubsection{线性插值}
+	给定两个互异结点,求一个次数小于等于1的多项式
+	$$
+	p_1 (x) = a_0 + a_1 x
+	$$
+	满足
+	$$
+	p_1 (x_0) = y_0 , \quad p_1 (x_1) = y_1
+	$$
+
+	\begin{equation} \tag{2.5} \label{2.5}
+		p_1 (x) = y_0 + \frac{y_1 - y_0}{x_1 - x_0} (x - x_0)
+	\end{equation}
+
+	式\eqref{2.5} 可以改写为
+
+	\begin{equation} \tag{2.6} \label{2.6}
+		p_1 (x) = \frac{x - x_1}{x_0 - x_1} y_0 + \frac{x - x_0}{x_1 - x_0} y_1
+	\end{equation}
+	记 $\quad \quad \quad \quad \quad \quad \quad \quad \quad \quad l_0 (x) = \frac{x - x_1}{x_0 - x_1} y_0 , \quad l_1 (x) = \frac{x - x_0}{x_1 - x_0} y_1$
+	$$
+	p_1 (x) = y_0 l_0 (x) + y_1 l_1 (x)
+	$$
+
+	\subsubsection{抛物插值}
+	给定三个互异结点,求一个次数小于等于2的多项式
+	$$
+	p_2 (x) = a_0 + a_1 x + a_2 x^2
+	$$
+	满足
+	$$
+	p_2 (x_0) = y_0 , \quad p_2 (x_1) = y_1 , \quad p_2 (x_2) = y_2
+	$$
+	
+	让
+	$$
+	y_0 l_0 (x) + y_1 l_1 (x) + y_2 l_2 (x) = g(x)
+	$$
+	满足
+	$$
+	g(x_0) = y_0 , \quad g(x_1) = y_1 , \quad g(x_2) = y_2
+	$$
+	即
+	$$
+	l_0 (x) = c(x - x_1)(x - x_2)
+	$$
+	由$l_0 (x_0) = 1$得
+	$$
+	c = \frac{1}{(x_0 - x_1)(x_0 - x_2)}
+	$$
+	综上解得
+	$$
+	l_0 (x) = \frac{(x - x_1)(x - x_2)}{(x_0 - x_1)(x_0 - x_2)}
+	$$
+	同理
+	$$
+	l_1 (x) = \frac{(x - x_0)(x - x_2)}{(x_1 - x_0)(x_1 - x_2)} , \quad l_2 (x) = \frac{(x - x_0)(x - x_1)}{(x_2 - x_0)(x_2 - x_1)}
+	$$
+
+	\subsubsection{Lagrange插值}
+	n个互异结点， 求一个次数小于等于n的多项式
+	$$
+	p_n (x) = a_0 + a_1 x + a_2 x^2 + \ldots + a_n x^n
+	$$
+	满足
+	$$
+	p_n (x_i) = y_i , \quad i=0, 1, 2, \ldots , n
+	$$
+	从上两类插值多项式的分析，我们将$p_n (x)$表示成(n+1)个n次多项式$l_i (x) (i=0,1,\ldots ,n)$的线性组合
+	
+	$$
+	p_n (x) = \sum_{i=0}^n y_i l_i (x)
+	$$
+
+	$$
+	\begin{aligned}
+		l_i (x) & = c\left(x - x_0 \right)\ldots \left(x - x_{i-1} \right) \ldots \left(x - x_n \right)  \\
+		& = c \prod_{\substack{j=0 \\ j \neq i}}^{n} (x - x_j)
+	\end{aligned}
+	$$
+
+	$$
+	c=1 / \prod_{\substack{j=0 \\ j \neq i}}^{n}\left(x_{i}-x_{j}\right)
+	$$
+
+	$$
+	l_{i}(x)=\prod_{\substack{j=0 \\ j \neq i}}^{n} \frac{x-x_{j}}{x_{i}-x_{j}}
+	$$
+
+	称$l_i (x) (i=0, 1, 2, \ldots , n)$为n次Lagrange插值基函数。
+	\begin{equation} \tag{2.7} \label{2.7}
+		p_n (x) = \sum_{i=0}^n y_i(\prod_{\substack{j=0 \\ j \neq i}}^{n} \frac{x-x_{j}}{x_{i}-x_{j}})
+	\end{equation}
+	公式\eqref{2.7}为Lagrange插值公式。
+
+	\subsubsection{插值余项}
+	令
+	$$
+	R_n(x) = f(x) - p_n(x)
+	$$
+	称$R_n(x)$为$p_n(x)$的截断误差或者插值余项。
+
+	\begin{equation} \tag{2.8} \label{2.8}
+		f(x) - p_n(x) = \frac{f^{n+1}(\xi)}{(n+1)!} \prod_{i=0}^n(x - x_i)
+	\end{equation}
+
+	\subsection{Newton插值}
+	\subsubsection{基函数}
+	\begin{equation} \tag{2.9} \label{2.9}
+		\notag
+		N_n(x) = c_0 + c_1 (x - x_0) + \ldots + c_n (x - x_0)(x - x_1) \ldots (x - x_{n-1})
+	\end{equation}
+	满足
+	$$
+	N_n(x_i) = f(x_i)
+	$$
+	为了简化运算，引进如下记号：
+	\begin{equation} \tag{2.10} \label{2.10}
+		\begin{cases}
+			\pi_0(x) &= 1 \\
+			\pi_i(x) &= (x - x_{i-1}) \pi_{i-1}(x) \\
+			&= (x - x_0)(x - x_1) \ldots (x - x_{i-1}) \quad \quad i=1, 2, \ldots , n
+		\end{cases}
+	\end{equation}
+	
+	$$
+	N_n(x) = c_0 \pi_0(x) + c_1 \pi_1(x) + \ldots + c_n \pi_n(x)
+	$$
+	当$x = x_0$得
+	$$
+	c_0 = N_n(x) = f(x)
+	$$
+	当$x = x_1$得
+	$$
+	c_1 = \frac{N_n(x_i) - c_0}{x1 - x0} = \frac{f(x_1) - f(x_0)}{x_1 - x_0}
+	$$
+	当$x = x_2$得
+	$$
+	c_2 = \left[\frac{f(x_2) - f(x1)}{x_2 - x_1} - \frac{f(x_1) - f(x_0)}{x_1 - x_0}  \right]/(x_2 - x_0) 
+	$$
+
+	\subsubsection{差商}
+	给定[a, b]中互异得点,$x_0, x_1, \ldots $，以及函数f(x)对应得函数值$f(x_0), f(x_1), \ldots$，则称
+	$$
+	f[x_0, x_1]=\frac{f(x_0 - x_1)}{x_0 - x_1}
+	$$
+	为f(x)在$x_0, x_1$的一阶差商。
+
+	$$
+	f[x_0, x_1, x_2] = \frac{f[x_0, x_1] - f[x_1, x_2]}{x_0 - x_2}
+	$$
+	称为f(x)在$x_0, x_1, x_2$的二阶差商。
+
+	$$
+	f[x_0, x_1, \ldots , x_k] = \frac{f[x_0, x_1, \ldots , x_{k-1}] - f[x_1, x_2, \ldots , x_k]}{x_0 - x_k}
+	$$
+	称为f(x)在$x_0, x_1, \ldots , x_k$的k阶差商。
+
+	\subsubsection{差商的性质}
+	$$
+	f[x_0, x_1, \ldots , x_k] = \sum_{j=0}^k \frac{f(x_j)}{(x_j - x_0)(x_j - x_1)\ldots (x_j - x_{j-1})(x_j - x_{j+1})\ldots (x_j - x_k)}
+	$$
+	令
+	$$
+	w_k(x) = \prod_{i=0}^k (x - x_i)
+	$$
+	则
+	$$
+	w_k^\prime(x) = \sum_{l=0}^k \prod_{\substack{i=0 \\ i \neq l}}^k (x - x_i)
+	$$
+	$$
+	w_k^\prime(x_j) = \prod_{\substack{i=0 \\ i \neq j}}^k (x - x_i)
+	$$
+	所以k阶差商又可以写成
+	$$
+	f[x_0, x_1, \ldots x_k] = \sum_{j=0}^k \frac{f(x_j)}{w_{k}^\prime(x_j)}
+	$$
+
+	在差商$f[x_0, x_1, \ldots , x_k]$中，可以改变结点的顺序而不改变差商的值，差商的值和结点的排列顺序无关，这是差商的对称性。
+
+	如果$f[x, x_0, x_1, \ldots x_k]$是x的m次多项式，则$f[x, x_0, x_1, \ldots , x_{k+1}]$是x的m-1次多项式。
+
+	若f(x)是n次多项式，则$f[x, x_1, x_2, \ldots , x_n]$恒等于0.
+
+	\subsubsection{Newton插值公式}
+
+	\begin{equation} \tag{2.11} \label{2.11}
+		\begin{aligned}
+			N_n(x) = f(x_0) + f[x_0, x_1](x - x_0) + f[x_0, x_1, x_2](x - x_0)(x - x_1) \\  
+			+\ldots + f[x_0, x_1, \ldots , x_n](x - x_0)(x - x_1)\ldots (x - x_n)
+		\end{aligned}
+	\end{equation}
+	由$N_n(x_i) = f(x_i) (i = 0, 1, \ldots , n)$可以构造$N_n(x)$解出来。
+	
+	\begin{equation} \tag{2.12} \label{2.12}
+		\begin{aligned}
+			R_n(x) &= f(x) - N_n(x) \\
+			&= f[x, x_0, x_1, \ldots , x_n](x - x_0)(x - x_1) \ldots (x - x_n) 
+		\end{aligned}
+	\end{equation}
+
+	若f(x)在[a, b]上有n+1阶导函数，则
+	$$
+	f[x_0, x_1, \ldots , x_n] = \frac{f^{(n)}(\xi)}{n!}
+	$$
+
+	所以\eqref{2.11}可以改写为
+
+	\begin{equation}
+		\begin{aligned}
+			\notag
+			N_n(x) = f(x_0) + f^\prime (\xi_1)(x - x_0) + \frac{f^{\prime \prime}(\xi_2)}{2!}(x - x_0)(x - x_1) \\
+			+ \ldots + \frac{f^{(n)}(\xi)}{n!}(x - x_0)(x - x_1)\ldots (x - x_{n-1})
+		\end{aligned}
+	\end{equation}
+
+	\subsection{Hermite插值}
+	$$
+	H(x_i) = y_i, \quad H^\prime (x_i) = y^\prime_i \quad \quad i = 0, 1, \ldots , n
+	$$
+
+	在上式中共给了2n+2个条件，所以从前文分析可以得到，一个次数不超过2n+1次的多项式H(x)
+
+	$$
+	H(x) = H_{2n+1}(x) = a_0 + a_1 x + \ldots + a_{2n+1} x^{2n+1}
+	$$
+
+	设
+	\begin{equation}
+		\notag
+		\left\{\begin{array}{l}
+		\alpha_{i}\left(x_{j}\right)=\delta_{i j}=\left[\begin{array}{ll}
+		0 & i \neq j \\
+		1 & i=j
+		\end{array}\right] \\
+		\alpha_{i}^{\prime}\left(x_{j}\right)=0 \\
+		\beta_{i}\left(x_{j}\right)=0 \\
+		\beta_{i}^{\prime}\left(x_{j}\right)=\delta_{i j}=\left[\begin{array}{ll}
+		0 & i \neq j \\
+		1 & i=j
+		\end{array}\right] \\
+		\end{array}\right.
+	\end{equation}
+	所以
+	$$
+	H_{2 n+1}(x)=\sum_{i=0}^{n}\left[y_{i} \alpha_{i}(x)+y_{i}^{\prime} \beta_{i}(x)\right]
+	$$
+
+	\begin{equation}
+		\begin{aligned}
+			\notag
+			\alpha_i(x) = (a_1 x + b_1)l_{i}^2(x) \quad \quad i = 0, 1, 2, \ldots , n  \\
+			\beta_i(x) = (a_2 x + b_2)l_{i}^2(x) \quad \quad i = 0, 1, 2, \ldots , n 
+		\end{aligned}
+	\end{equation}
+
+	由于
+	$$
+	l_i(x) = \frac{(x - x_0)\ldots (x - x_{i-1})(x - x_{i+1})\ldots (x - x_n)}{(x_i - x_0)\ldots (x_i - x_{i-1})(x_i - x_{i+1})\ldots (x_i - x_n)}
+	$$
+	求导得
+	\begin{equation}
+		\notag
+		\begin{aligned}
+			l_{i}^\prime (x) &= l_i(x) \sum_{\substack{k=0  \\ k \neq i}}^n \frac{1}{x - x_k}  \\
+			&= \sum_{\substack{k=0  \\ k \neq i}}^n \frac{1}{x_i - x_k}
+		\end{aligned}
+	\end{equation}
+	故
+	\begin{equation} \tag{2.13} \label{2.13}
+		\alpha_i(x) = \left[1 - 2\left(x - x_i \right)\sum_{\substack{k=0 \\ k \neq i}}^n \frac{1}{x_i - x_k}\right]l_{i}^2 (x)
+	\end{equation}
+	同理可得
+	\begin{equation} \tag{2.14} \label{2.14}
+		\beta_i (x) = \left(x - x_i\right) l_{i}^2 (x) 
+	\end{equation}
+	结合\eqref{2.13}, \eqref{2.14}可得
+	\begin{equation} \tag{2.15} \label{2.15}
+		H_{2n+1}(x) = \sum_{i=1}^n\left[y_i \left(1 - 2\left(x - x_i\right) \sum_{\substack{k=0 \\ k!=i}}^n\frac{1}{x_i - x_k}\right)l_{i}^2 (x) + y_{i}^\prime (x - x_i)l_{i}^2 (x)\right]
+	\end{equation}
+
+	\begin{equation} \tag{2.16} \label{2.16}
+		R_{2n+1}(x) = f(x) - H_{2n+1}(x) = \frac{f^{2n+2}(\xi)}{(2n+2)!}\omega_{n+1}^2(x)
+	\end{equation}
+	其中
+	$$
+	\omega_{n+1}(x) = \prod_{i=0}^n (x - x_i) 
+	$$
+	插值多项式$H_{2n+1}(x)$是唯一的。
+
+	\subsection{分段插值}
+
+	\subsubsection{分段插值概念}
+	Runge现象说明，在大范围使用高次插值，逼近效果并不理想。
+
+	随着插值结点的增多，插值多项式的次数必然也会随之而增加，而高次插值多项式会产生Runge现象，所以应该尽力避免高次插值多项式。
+
+	为了解决这一问题，所以可以采取分段插值的方式，将一个大区间分成若干个小区间，而在每一个小区间$[x_i , x_{i+1}]$构造一个插值多项式$p_i (x)(i=0, 1, \ldots , n-1)$。 \\
+	使得
+	$$
+	g(x) = p_i(x), \quad x \in [x_i , x_{i+1}]
+	$$
+
+	\subsubsection{线性分段插值}
+	在划分$\Delta$的每个结点$x_i$给出$y_i$，求一次多项式$s_1 (x)$使得：
+	$$
+	s_1 (x) = y_i \quad \quad x = 0, 1, \ldots , n
+	$$
+	此类问题则为线性分段插值问题
+
+	所以通过简单的推导可以得到:
+	\begin{equation} \tag{2.17} \label{2.17}
+		\begin{aligned}
+			s_1 (x) = y_i \frac{x - x_{i+1}}{x_i - x_{i+1}} + y_{i+1} \frac{x - x_i}{x_{i+1} - x_i} \quad \quad x_i \leq x \leq x_{i+1}
+		\end{aligned}
+	\end{equation}
+	在小区间$[x_i , x_{i+1}]$的余项可以估算出来，记$h_i = x_{i+1} - x_i$
+	$$
+	|f(x) - s_1 (x)| \leq \frac{1}{8} h_i^2 \max_{x_i \leq x \leq x_{i+1}} |f^{\prime \prime}(x)| 
+	$$
+
+	\subsubsection{分段三次Hermite插值}
+	道理同上，解为：
+	\begin{equation}  \tag{2.18} \label{2.18}
+		\begin{aligned}
+			s_3 (x) = y_i \varphi_0 (\frac{x - x_i}{h_i}) + y_{i+1} \varphi_1 (\frac{x - x_i}{h_i}) + h_i y_i^\prime \Psi_0 (\frac{x - x_i}{h_i}) + h_i y_{i+1}^\prime \Psi_1 (\frac{x - x_i}{h_i})
+		\end{aligned}
+	\end{equation}
+	其中
+	$$
+	\begin{array}{l}
+		x_{i} \leq x \leq x_{i+1} \\ 
+		\varphi_{0}(x)=(x-1)^{2}(2 x+1), \quad \varphi_{1}(x)=x^{2}(-2 x+3) \\
+		\Psi_{0}(x)=x(x-1)^{2}, \quad \Psi_{1}(x)=x^{2}(x-1) \\
+		h_{i}=x_{i+1}-x_{i}
+	\end{array}
+	$$
+
+	$$
+	|f(x) - s_3 (x)| \leq \frac{h^4}{384} \max_{x_i \leq x \leq x_{i+1}} |f^{(4)}(x)| \quad \quad h = max h_i
+	$$
+
+	\subsection{三次样条插值}
+	k次多项式$s_k(x)$如果在每个结点上具有k-1次l连续导数，则称$s_k(x)$为k次样条
+
+	三次样条插值可以看作三次Hermite插值的改进，但计算4n个线性方程太麻烦，所以选取导数值$s^\prime (x_i) = m_i$作为参数
+
+	\begin{equation}  \tag{2.19} \label{2.19}
+		\begin{aligned}
+			s_3 (x) = y_i \varphi_0 (\frac{x - x_i}{h_i}) + y_{i+1} \varphi_1 (\frac{x - x_i}{h_i}) + m_i h_i \Psi_0 (\frac{x - x_i}{h_i}) + m_{i+1} h_i \Psi_1 (\frac{x - x_i}{h_i})
+		\end{aligned}
+	\end{equation}
+	
+	因为$m_i$是未知的，所以在运算中需要把$m_i$的值求出才能得出解来。 \\
+	有点难
+
+	\subsection{最小二乘法拟合}
+
+	\subsubsection{直线拟合}
+	$$
+	Q = \sum_{i=1}^N \left[y_i - \left(a + b x_i\right)\right]^2
+	$$
+
+	\subsubsection{多项式拟合}
+	$$
+	Q = \sum_{i=1}^m \left[y_i - \sum_{j=0}^m a_j x^j \right]^2
+	$$
+
+	\subsubsection{其他拟合}
+	$$
+	g(x) \in H , \quad g(x) = \sum_{j=0}^n c_j \varphi_j (x) 
+	$$
+	
+	$$
+	Q(c_0 , c_1 , \ldots , c_n) = \sum_{i=1}^n \left(\sum_{j=0}^n c_j \varphi_j (x_j) - y_i\right)^2
+	$$
+	并让
+	$$
+	\frac{\partial Q}{\partial c_j} = 0  \quad \quad j = 0, 1, \ldots , n
+	$$
+
+	\begin{enumerate}
+		\item 双曲线型函数
+		$$
+		g(x) = c_1 + \frac{c_2}{x}
+		$$
+		\item 指数型函数
+		$$
+		g(x) = ae^{\frac{b}{x}}
+		$$
+		$$
+		\ln g(x) = \ln a + \frac{b}{x}
+		$$
+	\end{enumerate}
+
+	\section{Chapter Three}
+	
+	\subsection{数值积分}
+
+\end{document}

@@ -1,0 +1,366 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		7BB1238B257FBEA5009B0273 /* GameUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB12388257FBEA5009B0273 /* GameUtils.swift */; };
+		7BB1238C257FBEA5009B0273 /* GameHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB12389257FBEA5009B0273 /* GameHelper.swift */; };
+		7BB1238D257FBEA5009B0273 /* SCNAction+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB1238A257FBEA5009B0273 /* SCNAction+Extensions.swift */; };
+		7BB12390257FBEEE009B0273 /* MrPig.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 7BB1238F257FBEEE009B0273 /* MrPig.scnassets */; };
+		7BF6924D257FA9D600401525 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BF6924C257FA9D600401525 /* AppDelegate.swift */; };
+		7BF6924F257FA9D600401525 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 7BF6924E257FA9D600401525 /* GameScene.sks */; };
+		7BF69251257FA9D600401525 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 7BF69250257FA9D600401525 /* Actions.sks */; };
+		7BF69253257FA9D600401525 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BF69252257FA9D600401525 /* GameScene.swift */; };
+		7BF69255257FA9D600401525 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BF69254257FA9D600401525 /* GameViewController.swift */; };
+		7BF69258257FA9D600401525 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7BF69256257FA9D600401525 /* Main.storyboard */; };
+		7BF6925A257FA9D700401525 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7BF69259257FA9D700401525 /* Assets.xcassets */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		7BB12388257FBEA5009B0273 /* GameUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameUtils.swift; sourceTree = "<group>"; };
+		7BB12389257FBEA5009B0273 /* GameHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameHelper.swift; sourceTree = "<group>"; };
+		7BB1238A257FBEA5009B0273 /* SCNAction+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SCNAction+Extensions.swift"; sourceTree = "<group>"; };
+		7BB1238F257FBEEE009B0273 /* MrPig.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; name = MrPig.scnassets; path = "../../../../../Downloads/SceneKitDemos-master/Mr.Pig/Mr.Pig/MrPig.scnassets"; sourceTree = "<group>"; };
+		7BF69249257FA9D600401525 /* PigGame1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PigGame1.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7BF6924C257FA9D600401525 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		7BF6924E257FA9D600401525 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
+		7BF69250257FA9D600401525 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
+		7BF69252257FA9D600401525 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		7BF69254257FA9D600401525 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
+		7BF69257257FA9D600401525 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		7BF69259257FA9D700401525 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		7BF6925B257FA9D700401525 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		7BF69246257FA9D600401525 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		7BB12387257FBEA5009B0273 /* GameUtils */ = {
+			isa = PBXGroup;
+			children = (
+				7BB12388257FBEA5009B0273 /* GameUtils.swift */,
+				7BB12389257FBEA5009B0273 /* GameHelper.swift */,
+				7BB1238A257FBEA5009B0273 /* SCNAction+Extensions.swift */,
+			);
+			path = GameUtils;
+			sourceTree = "<group>";
+		};
+		7BF69240257FA9D600401525 = {
+			isa = PBXGroup;
+			children = (
+				7BF6924B257FA9D600401525 /* PigGame1 */,
+				7BF6924A257FA9D600401525 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		7BF6924A257FA9D600401525 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7BF69249257FA9D600401525 /* PigGame1.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7BF6924B257FA9D600401525 /* PigGame1 */ = {
+			isa = PBXGroup;
+			children = (
+				7BF6924C257FA9D600401525 /* AppDelegate.swift */,
+				7BF6924E257FA9D600401525 /* GameScene.sks */,
+				7BF69250257FA9D600401525 /* Actions.sks */,
+				7BF69252257FA9D600401525 /* GameScene.swift */,
+				7BF69254257FA9D600401525 /* GameViewController.swift */,
+				7BB12387257FBEA5009B0273 /* GameUtils */,
+				7BB1238F257FBEEE009B0273 /* MrPig.scnassets */,
+				7BF69256257FA9D600401525 /* Main.storyboard */,
+				7BF69259257FA9D700401525 /* Assets.xcassets */,
+				7BF6925B257FA9D700401525 /* Info.plist */,
+			);
+			path = PigGame1;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		7BF69248257FA9D600401525 /* PigGame1 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7BF6925E257FA9D700401525 /* Build configuration list for PBXNativeTarget "PigGame1" */;
+			buildPhases = (
+				7BF69245257FA9D600401525 /* Sources */,
+				7BF69246257FA9D600401525 /* Frameworks */,
+				7BF69247257FA9D600401525 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PigGame1;
+			productName = PigGame1;
+			productReference = 7BF69249257FA9D600401525 /* PigGame1.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		7BF69241257FA9D600401525 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1220;
+				LastUpgradeCheck = 1220;
+				TargetAttributes = {
+					7BF69248257FA9D600401525 = {
+						CreatedOnToolsVersion = 12.2;
+					};
+				};
+			};
+			buildConfigurationList = 7BF69244257FA9D600401525 /* Build configuration list for PBXProject "PigGame1" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 7BF69240257FA9D600401525;
+			productRefGroup = 7BF6924A257FA9D600401525 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				7BF69248257FA9D600401525 /* PigGame1 */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		7BF69247257FA9D600401525 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7BF69258257FA9D600401525 /* Main.storyboard in Resources */,
+				7BB12390257FBEEE009B0273 /* MrPig.scnassets in Resources */,
+				7BF6924F257FA9D600401525 /* GameScene.sks in Resources */,
+				7BF6925A257FA9D700401525 /* Assets.xcassets in Resources */,
+				7BF69251257FA9D600401525 /* Actions.sks in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		7BF69245257FA9D600401525 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7BB1238C257FBEA5009B0273 /* GameHelper.swift in Sources */,
+				7BF69253257FA9D600401525 /* GameScene.swift in Sources */,
+				7BB1238D257FBEA5009B0273 /* SCNAction+Extensions.swift in Sources */,
+				7BB1238B257FBEA5009B0273 /* GameUtils.swift in Sources */,
+				7BF69255257FA9D600401525 /* GameViewController.swift in Sources */,
+				7BF6924D257FA9D600401525 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		7BF69256257FA9D600401525 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7BF69257257FA9D600401525 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		7BF6925C257FA9D700401525 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		7BF6925D257FA9D700401525 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		7BF6925F257FA9D700401525 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 2XKKDYU69C;
+				INFOPLIST_FILE = PigGame1/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "---Mac.PigGame1";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		7BF69260257FA9D700401525 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 2XKKDYU69C;
+				INFOPLIST_FILE = PigGame1/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "---Mac.PigGame1";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		7BF69244257FA9D600401525 /* Build configuration list for PBXProject "PigGame1" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7BF6925C257FA9D700401525 /* Debug */,
+				7BF6925D257FA9D700401525 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7BF6925E257FA9D700401525 /* Build configuration list for PBXNativeTarget "PigGame1" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7BF6925F257FA9D700401525 /* Debug */,
+				7BF69260257FA9D700401525 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 7BF69241257FA9D600401525 /* Project object */;
+}

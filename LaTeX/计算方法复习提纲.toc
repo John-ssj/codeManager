@@ -1,0 +1,113 @@
+\contentsline {chapter}{\numberline {1}引论}{4}%
+\contentsline {section}{\numberline {1.1}计算方法的主要内容}{4}%
+\contentsline {section}{\numberline {1.2}常用近似计算方法}{4}%
+\contentsline {subsection}{\numberline {1.2.1}离散化方法}{4}%
+\contentsline {paragraph}{ }{4}%
+\contentsline {subsection}{\numberline {1.2.2}递推化方法}{5}%
+\contentsline {paragraph}{ }{5}%
+\contentsline {subsection}{\numberline {1.2.3}近似替代法}{5}%
+\contentsline {paragraph}{ }{5}%
+\contentsline {section}{\numberline {1.3}误差的基本概念}{6}%
+\contentsline {subsection}{\numberline {1.3.1}误差的来源}{6}%
+\contentsline {subsection}{\numberline {1.3.2}误差、误差限、相对误差和有效数字}{6}%
+\contentsline {paragraph}{ }{6}%
+\contentsline {subsection}{\numberline {1.3.3}有效数字与相对误差限的关系}{7}%
+\contentsline {subsection}{\numberline {1.3.4}算术运算的误差及误差限}{7}%
+\contentsline {paragraph}{ }{7}%
+\contentsline {section}{\numberline {1.4}近似计算注意原则}{8}%
+\contentsline {chapter}{\numberline {2}插值方法与曲线拟合}{9}%
+\contentsline {section}{\numberline {2.1}插值多项式的存在唯一性}{9}%
+\contentsline {paragraph}{ }{9}%
+\contentsline {section}{\numberline {2.2}Lagrange插值}{9}%
+\contentsline {subsection}{\numberline {2.2.1}线形插值}{9}%
+\contentsline {paragraph}{ }{9}%
+\contentsline {subsection}{\numberline {2.2.2}抛物插值}{10}%
+\contentsline {paragraph}{ }{10}%
+\contentsline {subsection}{\numberline {2.2.3}Lagrange插值公式}{10}%
+\contentsline {paragraph}{ }{10}%
+\contentsline {subsection}{\numberline {2.2.4}插值余项}{11}%
+\contentsline {paragraph}{ }{11}%
+\contentsline {section}{\numberline {2.3}Newton插值}{11}%
+\contentsline {subsection}{\numberline {2.3.1}基函数}{11}%
+\contentsline {paragraph}{}{11}%
+\contentsline {subsection}{\numberline {2.3.2}差商的概念}{12}%
+\contentsline {paragraph}{ }{12}%
+\contentsline {subsection}{\numberline {2.3.3}差商的性质}{13}%
+\contentsline {paragraph}{(1)}{13}%
+\contentsline {paragraph}{(2)}{13}%
+\contentsline {paragraph}{(3)}{13}%
+\contentsline {paragraph}{(推论)}{13}%
+\contentsline {subsection}{\numberline {2.3.4}Newton插值公式}{13}%
+\contentsline {paragraph}{ }{13}%
+\contentsline {section}{\numberline {2.4}Hermite插值}{14}%
+\contentsline {paragraph}{ }{14}%
+\contentsline {paragraph}{ }{15}%
+\contentsline {section}{\numberline {2.5}分段插值}{15}%
+\contentsline {subsection}{\numberline {2.5.1}高次插值Runge现象}{15}%
+\contentsline {paragraph}{ }{15}%
+\contentsline {subsection}{\numberline {2.5.2}分段插值概念}{15}%
+\contentsline {paragraph}{ }{15}%
+\contentsline {subsection}{\numberline {2.5.3}线性分段插值}{15}%
+\contentsline {subsection}{\numberline {2.5.4}分段三次Hermite插值}{16}%
+\contentsline {chapter}{\numberline {3}数值积分}{17}%
+\contentsline {section}{\numberline {3.1}机械求积公式和代数精度}{17}%
+\contentsline {subsection}{\numberline {3.1.1}求积公式}{17}%
+\contentsline {paragraph}{其一般形式如下所示}{17}%
+\contentsline {subsection}{\numberline {3.1.2}代数精度}{18}%
+\contentsline {section}{\numberline {3.2}求积公式的构造方法}{18}%
+\contentsline {subsection}{\numberline {3.2.1}用解代数方程组的方法构造求积公式}{18}%
+\contentsline {subsection}{\numberline {3.2.2}用插值方法构造求积公式}{18}%
+\contentsline {section}{\numberline {3.3}Newton-Cotes求积公式}{19}%
+\contentsline {subsection}{\numberline {3.3.1}Newton-Cotes公式}{19}%
+\contentsline {subsection}{\numberline {3.3.2}Newton-Cotes公式的数值稳定性}{19}%
+\contentsline {paragraph}{ }{19}%
+\contentsline {subsection}{\numberline {3.3.3}Newton-Cotes求积公式截断误差}{20}%
+\contentsline {section}{\numberline {3.4}复化求积法}{20}%
+\contentsline {subsection}{\numberline {3.4.1}复化求积公式}{20}%
+\contentsline {subsection}{\numberline {3.4.2}复化求积公式截断误差}{21}%
+\contentsline {section}{\numberline {3.5}Romberg求积公式及算法}{21}%
+\contentsline {subsection}{\numberline {3.5.1}梯形法的递推化}{21}%
+\contentsline {subsection}{\numberline {3.5.2}Romberg公式}{21}%
+\contentsline {paragraph}{复化Simpson的积分值}{21}%
+\contentsline {paragraph}{复化Cotes的积分值}{22}%
+\contentsline {paragraph}{Romberg积分法}{22}%
+\contentsline {chapter}{\numberline {4}常微分方程数值解法}{23}%
+\contentsline {section}{\numberline {4.1}尤拉法、隐式尤拉法和二步尤拉法}{23}%
+\contentsline {subsection}{\numberline {4.1.1}尤拉法}{23}%
+\contentsline {subsection}{\numberline {4.1.2}隐式尤拉法}{23}%
+\contentsline {subsection}{\numberline {4.1.3}二步欧拉法}{24}%
+\contentsline {subsection}{\numberline {4.1.4}局部截断误差与精度}{24}%
+\contentsline {section}{\numberline {4.2}改进的尤拉法}{24}%
+\contentsline {subsection}{\numberline {4.2.1}梯形公式}{24}%
+\contentsline {subsection}{\numberline {4.2.2}改进的尤拉法}{24}%
+\contentsline {section}{\numberline {4.3}Runge-Kutta法}{25}%
+\contentsline {subsection}{\numberline {4.3.1}Runge-Kutta基本思想}{25}%
+\contentsline {subsection}{\numberline {4.3.2}二阶Runge-Kutta方法}{25}%
+\contentsline {paragraph}{两种常用的二阶Runge-Kutta法:}{25}%
+\contentsline {subsection}{\numberline {4.3.3}高阶Runge-Kutta法}{26}%
+\contentsline {paragraph}{3阶Runge-Kutta方程}{26}%
+\contentsline {paragraph}{常用3阶Runge-Kutta公式}{26}%
+\contentsline {paragraph}{常用4阶Runge-Kutta公式}{26}%
+\contentsline {subsection}{\numberline {4.3.4}变步长Runge-Kutta法}{27}%
+\contentsline {section}{\numberline {4.4}收敛性和稳定性}{27}%
+\contentsline {subsection}{\numberline {4.4.1}收敛性}{27}%
+\contentsline {subsection}{\numberline {4.4.2}稳定性}{28}%
+\contentsline {paragraph}{部分稳定条件:}{28}%
+\contentsline {chapter}{\numberline {5}方程求根}{29}%
+\contentsline {section}{\numberline {5.1}根的隔离与二分法}{29}%
+\contentsline {subsection}{\numberline {5.1.1}根的隔离}{29}%
+\contentsline {subsection}{\numberline {5.1.2}二分法}{29}%
+\contentsline {paragraph}{基本思路}{29}%
+\contentsline {section}{\numberline {5.2}迭代法及其收敛性}{30}%
+\contentsline {subsection}{\numberline {5.2.1}迭代法的基本概念}{30}%
+\contentsline {subsection}{\numberline {5.2.2}迭代法过程的收敛性}{30}%
+\contentsline {section}{\numberline {5.3}收敛速度及收敛过程的加速}{31}%
+\contentsline {subsection}{\numberline {5.3.1}迭代的收敛速度}{31}%
+\contentsline {subsection}{\numberline {5.3.2}收敛过程的加速}{32}%
+\contentsline {paragraph}{此过程可归纳为：}{32}%
+\contentsline {paragraph}{Aitken加速法：}{32}%
+\contentsline {section}{\numberline {5.4}牛顿法}{32}%
+\contentsline {subsection}{\numberline {5.4.1}牛顿法的构造及牛顿迭代公式}{32}%
+\contentsline {subsection}{\numberline {5.4.2}牛顿法的收敛性和收敛速度}{33}%
+\contentsline {subsection}{\numberline {5.4.3}初始值的选取}{33}%
+\contentsline {subsection}{\numberline {5.4.4}牛顿法下山法}{33}%

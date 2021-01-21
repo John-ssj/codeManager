@@ -1,0 +1,1582 @@
+%! TEX program = xelatex
+
+\documentclass[12pt]{report}
+\usepackage[UTF8]{ctex}
+
+\usepackage{geometry}
+\geometry{a4paper,left=1.5cm,right=1.5cm,top=2cm,bottom=3cm}
+
+\XeTeXlinebreaklocale "zh"
+\XeTeXlinebreakskip = 0pt plus 1pt
+
+\usepackage{fontspec}
+\setmainfont{Avenir}
+
+\usepackage{amsmath}
+
+\title{计算方法复习提纲}
+\author{网安1903 \quad 史圣久}
+\date{
+2020年12月19日 \\
+~\\
+学号：U201915584
+}
+
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\clearpage
+
+\chapter{引论}
+
+\section{计算方法的主要内容}
+
+\begin{enumerate}
+	\item 面向计算机，根据计算机的特点为计算机提供可行有效的算法，使其可以直接处理。
+	\item 有可靠的理论分析，可以任意逼近达到精度要求，对误差进行分析，建立在数理理论基础上。
+	\item 有比较好的计算复杂度，即算法的时间复杂度和空间复杂度尽可能低。
+	\item 有数值实验，满足前三者后通过数值实验进行验证。
+\end{enumerate}
+
+\section{常用近似计算方法}
+
+\subsection{离散化方法}
+
+\paragraph{ } 把连续型问题转化为离散型问题，
+因为计算机无法对连续型问题进行求解，
+为了使计算机可以正常运算，
+所以需要将连续型问题转化为离散型问题。
+最为常见的例子就是求定积分了。
+
+例1.1: \quad 计算定积分
+
+\[I = \int_a^b f(x)\, dx\]
+
+将区间$[a, b] n$等分, \(a = x_0 < x_1 < \ldots < x_n = b,
+x_i = x_0 + h_i;i = 1, 2, \ldots, n\);
+则对于每个小区间 \([x_i, x_{i+1}]\) , \(S_i\) 我们可以用近似替代
+
+\begin{gather*}
+	S_i \approx \frac{h}{2}[f(x_{i-1})+f(x_{i})] \\
+	S=\sum_{i=1}^n S_i \approx \frac{h}{2} \sum_{i=1}^{h}[f(x_{i-1})+f(x_{i})]=
+	\frac{h}{2}[f(a)+2 \sum_{i=1}^{n-1} f(x_{i})+f(b)] \\
+	\int_{a}^{b} f(x) \mathrm{d} x \approx \frac{h}{2}[f(a) +
+		2 \sum_{i=1}^{n-1} f(x_{i})+f(b)]
+\end{gather*}
+
+\subsection{递推化方法}
+
+\paragraph{ } 具体思路就是，将一项复杂的运算归纳为若干次简单的计算，且递推化的算法更加适合计算机进行运算。
+
+例1.2: \quad $p_n(x)=a_n x^n+a_{n-1} x^{n-1}+ \cdots +a_1 x+a_0$
+
+\begin{align*}
+	p_n(x) & =a_{n} x^{n}+a_{n-1} x^{n-1}+\ldots+a_{1} x+a_{0}                                              \\
+	       & =\left(a_{n} x^{n-1}+a_{n-1} x^{n-2}+\ldots+a_{2} x+a_{1}\right) x+a_{0}                       \\
+	       & =\left(\left(a_{n} x^{n-2}+a_{n-1} x^{n-3}+\ldots a_{3} x+a_{2}\right) x+a_{1}\right) x+a_{0}  \\
+	       & =\left(\ldots\left(\left(a_{n} x+a_{n-1}\right) x+a_{n-2}\right) x+\ldots+a_{1}\right) x+a_{0}
+\end{align*}
+
+其中，可以令：
+
+\[
+	\begin{array}{l}
+		v_{0}=a_{n}           \\
+		v_{1}=a_{n} x+a_{n-1} \\
+		v_{2}=v_{1} x+a_{n-2} \\
+		v_{3}=v_{2} x+a_{n-3} \\
+		\vdots                \\
+		v_{n}=v_{n-1} x+a_{0}
+	\end{array}
+\]
+
+显然$v_n=p_n$
+
+
+\subsection{近似替代法}
+
+\paragraph{ } 许多的数学问题在有限次的运算里是无法求出解的，但可以化为在有限次运算可以得到有一定误差的解.
+
+例1.3: \quad 求e的近似值：
+
+\begin{equation}
+	\begin{aligned}
+		e^x & = 1 + x + \frac{x^2}{2!} + \ldots + \frac{x^n}{n!} + \ldots \\
+		e   & = 1 + 1 + \frac{1}{2!} + \ldots + \frac{1}{n!} + \ldots     \\
+		e   & \approx 1 + 1 + \frac{1}{2!} + \ldots + \frac{1}{n!}
+	\end{aligned}
+\end{equation}
+
+使用余项进行误差估计
+
+\begin{equation}
+	\begin{aligned}
+		R_n(x) & = & e^x - \left(1 + x + \frac{x^2}{2!} + \ldots + \frac{x^n}{n!}\right) = \frac{f^{n+1}(\zeta)}{(n+1)!}, \zeta \in \left(0, 1\right)
+	\end{aligned}
+\end{equation}
+
+\[
+	|R_n(1)| \leq \frac{e}{(n+1)!}
+\]
+
+
+\section{误差的基本概念}
+
+\subsection{误差的来源}
+
+\begin{enumerate}
+	\item 模型误差，建立数学模型时的理想化误差。
+	\item 观测误差，观测结果与实际大小的误差。
+	\item 截断误差，理论精确值需要无数次运算，实际只使用了有限次运算所造成的误差。
+	\item 舍入误差，保留有限长的近似值时四舍五入造成的误差。
+\end{enumerate}
+
+\subsection{误差、误差限、相对误差和有效数字}
+
+\paragraph{ } 假设某一量的精确值为x，其近似值为$x^*$
+
+【定义1.1】 \quad 绝对误差:
+
+\[ \varepsilon (x) = |x - x^*| \]
+
+存在一个数$\eta$满足
+
+\[ \varepsilon (x) = |x - x^*| \leq \eta \]
+
+称$\eta$为近似值$x^*$的绝对误差限:
+
+\[ x = x^* \pm \eta \]
+
+【定义1.2】 \quad 相对误差:
+
+\[ \varepsilon_r = \frac{\varepsilon}{x^*} = \frac{x^* - x}{x^*} \]
+
+或:
+
+\[ \varepsilon_r = \frac{\varepsilon}{x^*} = \frac{x^* - x}{x^*} \]
+
+【定义1.3】 \quad 相对误差限:
+
+\[ \varepsilon_r = \frac{\eta}{|x^*|} \]
+
+\subsection{有效数字与相对误差限的关系}
+
+【定义1.4】 \quad 若近似值$x^*$的绝对误差限小于等于某一位的半个单位，
+则称$x^*$精确到该位。
+
+\[ x^* = \pm 0.a_1 a_2 \ldots a_n \times 10^m \]
+
+\[ |x^* - x| \leq \frac{1}{2} \times 10^{m-l}, 1\leq l \leq n \]
+
+则称$x^*$有$l$位有效数字。
+
+【定理1.1】 \quad 设近似值\( x^* = \pm 0.a_1 a_2 \ldots a_n \times 10^m \),共有n位有效数字,
+\( a_1 \neq 0 \),则其相对误差限为\( \frac{1}{2a_1} \times 10^{-n+1} \)。
+
+【定理1.2】 \quad 设近似值\( x^* = \pm 0.a_1 a_2 \ldots a_n \times 10^m \),
+其相对误差限为\( \frac{1}{2(a_1 + 1)} \times 10^{-n+1} \),\( a_1 \neq 0 \),则其有n位有效数字。
+
+\subsection{算术运算的误差及误差限}
+
+\paragraph{ } 和的误差是误差之和，差的误差是误差之差。
+
+\[ (x^* \pm y^*) - (x \pm y) = (x^* - x) \pm (y^* - y) \]
+
+因为
+
+\[ |(x^* \pm y^*) - (x \pm y)| \leq |(x^* - x)| + |(y^* - y)| \]
+
+所以，误差限之和是和或差的误差限。
+
+乘法误差
+
+\[ |x^* y^* -xy| \leq |x^*| \eta (y^*) + |y^*| \eta (x^*) + \eta(x^*) \eta(y^*) \]
+
+忽略$\eta(x^*) \eta(y^*)$
+
+\[ |x^* y^* -xy| \leq |x^*| \eta (y^*) + |y^*| \eta (x^*) \]
+
+除法误差
+
+\begin{align*}
+	|\frac{x^*}{y^*} - \frac{x}{y}| & = |\frac{x^* y^* - x^* \varepsilon (y^*) - x^* y^* + y^* \varepsilon (x^*)}{y^* \left(y^* - \varepsilon(y^*)\right)} \\
+	                                & \leq \frac{|x^*|\eta (y^*) + |y^*|\eta(x^*)}
+	{|y^*|^2 \left(1 - \frac{\eta(y^*)}{|y^*|}\right)}
+\end{align*}
+
+因为\( \frac{\eta (y^*)}{|y^*|} \)可忽略，所以：
+
+\[
+	|\frac{x^*}{y^*} - \frac{x}{y}|
+	\leq \frac{|x^*|\eta (y^*) + |y^*|\eta(x^*)}{|y^*|^2}
+\]
+
+综上所述
+
+\begin{align*}
+	\eta(x^{*}+y^{*})         & = \eta(x^{*}) + \eta(y^{\prime})                     \\
+	\eta(x^{*}-y^{2})         & = \eta(x^{-}) + \eta(y^{*})                          \\
+	\eta(x^{*} y^{*})         & \approx |x^{*}|\eta(y^{*}) + |y^{*}] \eta (x^{*})    \\
+	\eta(\frac{x^{*}}{y^{*}}) & \approx \frac{|x^{*}|\eta(y^{*}) + |y^{*}| n(x^{*})}
+	{|y^{2}|^{2}} \qquad y \neq 0, y^{*} \neq 0
+\end{align*}
+
+\section{近似计算注意原则}
+
+\begin{enumerate}
+	\item 加减运算  \\
+	      近似数进行加减运算时，把小数中位数多的先四舍五入，
+	      使其比小数位数最少的数多一位，计算结果保留小数位数与原数位最少的数相同。
+	\item 乘除运算  \\
+	      近似数相乘除时，各因子保留位数应比有效数字位最少的多一位，
+	      所得结果的有效数位数与原近似值中有效数字位数最少的位数至多少一位。
+	\item 乘方与开方运算  \\
+	      近似数进行乘方或开方运算时，原有几位有效数字，结果就保留几位有效数字。
+	\item 对数运算  \\
+	      进行对数运算时，所取对数的位数应与其真数有效数字位数相等。
+\end{enumerate}
+
+\chapter{插值方法与曲线拟合}
+
+\section{插值多项式的存在唯一性}
+
+\paragraph{ } 所谓多项式插值问题
+就是要确定一个次数不高于的代数多项式
+
+\[ p_n(x) = a_0+a_1x + a_1x^2 +\ldots+ a_nx^n \tag{2.1} \label{2.1} \]
+
+使其满足
+
+\[ p_n(x_i)=y_i \qquad i=0,1,2,\ldots,n\tag{2.2} \label{2.2} \]
+
+点\( x_i(i=0,1,2,\ldots,n) \)互异,称为插值节点,包含插值节点的区间a, b称为插值区间。
+
+【定理2.1】\quad 在n+1个互异的插值节点\( x_0,x_1,x_2,\ldots,x_n \)上满足条件式
+\eqref{2.2} 的次数不高于$n$的代数多项式 \eqref{2.1} 存在且惟一。
+
+\section{Lagrange插值}
+
+\subsection{线形插值}
+
+\paragraph{ } 【问题2.1】\quad 设函数$y=f(x)$
+在给定的互异节点$x_0,x_1$上的函数值为$y_0,y_1$求作一个次数小于等于1的多项式
+
+\[ p_1(x)= a_0 + a_1x \]
+
+使它满足:
+
+\[ p_1(x_0) = y_0 \qquad p_1(x_1) = y_1 \]
+
+问题2.1所定义的插值问题称为线性插值。
+
+其解为:
+
+\[ p_1(x) = y_0l_0(x) + y_1l_1(x) \tag{2.3} \label{2.3} \]
+
+其中:
+
+\[ l_0(x)=\frac{x-x_1}{x_0-x_1} \qquad l_1(x)=\frac{x-x_0}{x_1-x_0} \]
+
+公式 \eqref{2.3} 也可以简单表示为:
+
+\[
+	p_1(x) = \frac{x-x_1}{x_0-x_1}l_0(x) +
+	\frac{x-x_0}{x_1-x_0}l_1(x) \tag{2.4} \label{2.4}
+\]
+
+\subsection{抛物插值}
+
+\paragraph{ } 【问题2.2】 \quad 设函数$y=f(x)$
+在给定的互异节点$x_0,x_1,x_2$上的函数值分别为$y_0,y_1,y_2$求作一个次数小于等于2的多项式。
+
+\[p_2(x) = a_0 + a_1x + a_2x^2\]
+
+使它满足:
+
+\[p_2(x_0)=y_0, \quad p_2(x_1)=y_1, \quad p_2(x_2)=y_2\]
+
+问题2.2所定义的插值问题称为抛物插值。
+
+其解为:
+
+\[ p_2(x) = y_0l_0(x) + y_1l_1(x) + y_2l_2(x) \tag{2.5} \label{2.5} \]
+
+其中:
+
+\begin{align*}
+	l_0(x)=\frac{(x-x_1)(x-x_2)}{(x_0-x_1)(x_0-x_2)} \\
+	l_1(x)=\frac{(x-x_0)(x-x_2)}{(x_1-x_0)(x_1-x_2)} \\
+	l_2(x)=\frac{(x-x_0)(x-x_1)}{(x_2-x_0)(x_2-x_1)}
+\end{align*}
+
+\subsection{Lagrange插值公式}
+
+\paragraph{ } 【问题2.3】 \quad 设函数$y=f(x)$在给定的互异节点
+\( x_0, x_1, x_2,\ldots,x_n \)上的函数值分别为
+\( y0,y1,y2,\ldots,y_n \)求作一个次数小于等于$n$的多项式。
+
+\[p_n(x) = a_0 + a_1x + a_2x^2 + \ldots + a_nx^n\]
+
+使它满足:
+
+\[ p_n(x_i)=y_i, \quad i=0,1,2,\ldots,n \]
+
+问题2.2所定义的插值问题称为抛物插值。
+
+其解为:
+
+\[ p_n(x) = \sum_{i=0}^ny_il_i(x)\tag{2.6} \label{2.6} \]
+
+其中:
+
+\[ l_i(x) = \prod_{j=0, j\not=i}^n \frac{(x-x_j)}{(x_i-x_j)} \]
+
+公式\eqref{2.6}也可以简单表示为:
+
+\[
+	p_n(x) = \sum_{i=0}^ny_i \left(
+	\prod_{j=0, j\not=i}^n
+	\frac{(x-x_j)}{(x_i-x_j)}
+	\right) \tag{2.7} \label{2.7}
+\]
+
+
+\subsection{插值余项}
+
+\paragraph{ } 依函数$f(x)$构造出的插值多项式$p_n(x)$仅为一种近似表示式。
+
+令:
+
+\[ R_n(x) = f(x) - p_n(x) \tag{2.8} \label{2.8} \]
+
+并称$R_n(x)$为$f(x)$的截断误差或插值余项。
+
+【定理2.2】\quad 设区间$[a,b]$含有节点$x_0,x_1, \ldots x_n$，
+而$f(x)$在$[a,b]$内有1～n+1阶的导数，且$f(x_i)=y_i(i=0,1, \ldots ,n)$已给，
+则当$x\in[a,b]$时，对于式 \eqref{2.8}给出的$p_n(x)$满足
+
+\[ f(x)-p_n(x) = \frac{f^{n+1}(u)}{(n+1)!} \prod_{i=0}^n(x-x_i) \tag{2.9} \label{2.9} \]
+
+
+\section{Newton插值}
+
+\subsection{基函数}
+
+\paragraph{} 【问题2.4】 \quad 求作n次多项式
+
+\begin{align*}
+	N_n(x) = & c_0 + c_1(x-xo) + c_2(x-x_0)(x-x1) + \ldots \\
+	         & + c_n(x- x_0)(x-x_1)\ldots(x-x_{n-1})
+\end{align*}
+
+使满足
+
+\[
+	N_n(x_i) = f(x_i) \qquad
+	i=0,1,2,\ldots,n
+\]
+
+问题2.4所定义的插值问题称为Newton插值。
+为了使$N_n(x)$的形式得到简化,引进如下记号:
+
+\begin{align*}
+	\begin{cases}
+		\varphi_0(x) & = 1                                                                                  \\
+		\varphi_i(x) & = (x-x_{i-1})\varphi_{i-1}(x)                                                        \\
+		             & = (x-x_{0})(x-x_{1})\cdots(x-x_{i-1}) \quad i=0,1,2,\ldots,n \tag{2.10} \label{2.10}
+	\end{cases}
+\end{align*}
+
+【定义2.1】 \quad 由式\eqref{2.10}定义的$n+1$个多项式
+
+\[
+	\varphi_0(x), \varphi_1(x), \varphi_2(x),\dots,\varphi_0(x)
+\]
+
+于是$N_n(x)$可以表示为如下形式
+
+\[
+	N_n(x) = c_0 \varphi_0(x) + c_1 \varphi_1(x) + \ldots + c_n \varphi_n(x)
+\]
+
+当$x = x_0$得
+	
+\[
+	c_0 = N_n(x) = f(x)
+\]
+
+当$x = x_1$得
+
+\[
+	c_1 = \frac{N_n(x_i) - c_0}{x1 - x0} = \frac{f(x_1) - f(x_0)}{x_1 - x_0}
+\]
+
+当$x = x_2$得
+\[
+	c_2 = \left[\frac{f(x_2) - f(x_1)}{x_2 - x_1} - \frac{f(x_1) - f(x_0)}{x_1 - x_0}  \right]/(x_2 - x_0) 
+\]
+
+
+\subsection{差商的概念}
+
+\paragraph{ } 给定[a, b]中互异得点,$x_0, x_1, \ldots $，以及函数$f(x)$对应得函数值$f(x_0), f(x_1), \ldots$，则称
+
+\[
+	f[x_0, x_1]=\frac{f(x_0 - x_1)}{x_0 - x_1}
+\]
+
+为$f(x)$在$x_0, x_1$的一阶差商。
+
+\[
+	f[x_0, x_1, x_2] = \frac{f[x_0, x_1] - f[x_1, x_2]}{x_0 - x_2}
+\]
+
+称为$f(x)$在$x_0, x_1, x_2$的二阶差商。
+
+\[
+	f[x_0, x_1, \ldots , x_k] = \frac{f[x_0, x_1, \ldots , x_{k-1}] - f[x_1, x_2, \ldots , x_k]}{x_0 - x_k}
+\]
+
+称为$f(x)$在$x_0, x_1, \ldots , x_k$的$k$阶差商。
+
+
+\subsection{差商的性质}
+
+
+\paragraph{(1)} k阶商差是函数值$f(x_0),f(x_0),f(x_0)$的线性组合
+
+\[
+	f[x_0, x_1, \ldots , x_k] = \sum_{j=0}^k \frac{f(x_j)}{(x_j - x_0)(x_j - x_1)\ldots (x_j - x_{j-1})(x_j - x_{j+1})\ldots (x_j - x_k)}
+\]
+
+令
+
+\[
+	w_k(x) = \prod_{i=0}^k (x_j - x_i)
+\]
+
+则
+
+\[
+	w_k^\prime(x) = \sum_{l=0}^k \prod_{\substack{i=0 \\ i \neq l}}^k (x - x_i)
+\]
+
+\[
+	w_k^\prime(x_j) = \prod_{\substack{i=0 \\ i \neq j}}^k (x - x_i)
+\]
+
+所以k阶差商又可以写成
+
+\[
+	f[x_0, x_1, \ldots x_k] = \sum_{j=0}^k \frac{f(x_j)}{w_{k}^\prime(x_j)}
+\]
+
+\paragraph{(2)} 对称性:在差商$f[x_0 , x_1 ,\dots, x_k]$中，可以改变结点的顺序而不改变差商的值，
+差商的值和结点的排列顺序无关。
+
+\paragraph{(3)} 如果$f[x,x_0,x_1,\dots,x_k]$是x的m次多项式，则$f[x,x_0,x_1,...,x_{k+1}]$是x的m-1次多项式。 
+
+\paragraph{(推论)} 若f(x)是n次多项式，则$f[x,x_0,x_1,\dots,x_n]$恒等于0
+
+
+\subsection{Newton插值公式}
+
+\paragraph{ } 问题2.4的解为:
+
+\begin{equation}
+	\begin{aligned}
+		N_n(x) = f(x_0) + f[x_0, x_1](x - x_0) + f[x_0, x_1, x_2](x - x_0)(x - x_1) \\  
+		+\ldots + f[x_0, x_1, \ldots , x_n](x - x_0)(x - x_1)\ldots (x - x_n)
+	\end{aligned} \tag{2.11} \label{2.11}
+\end{equation}
+
+其余项$R_n(x)$为:
+
+\begin{equation}
+	\begin{aligned}
+		R_n(x) &= f(x) - N_n(x) \\
+		&= f[x, x_0, x_1, \ldots , x_n](x - x_0)(x - x_1) \ldots (x - x_n) 
+	\end{aligned} \tag{2.12} \label{2.12}
+\end{equation}
+
+【定理2.3】 \quad 若$f(x)$在$[a, b]$上有$n+1$阶导函数，则存在一点$\xi \in [min x_i, max x_i]$，使得:
+
+\[
+	f[x_0, x_1, \ldots , x_n] = \frac{f^{(n)}(\xi)}{n!}
+\]
+
+
+\section{Hermite插值}
+
+\paragraph{ } 【问题2.5】\quad 设函数$y=f(x)$
+在节点$x_0,x_1,\dots,x_n$上的函数值$f(x_i)=y_i$及导数$f'(x_i)=y_i'$已知，求作一个插值多项式函数$H(x)$，使满足条件:
+
+\[
+	H(x_i) = y_i, \quad H^\prime (x_i) = y^\prime_i \quad \quad i = 0, 1, \ldots , n
+\]
+
+在上式共给了$H(x)$应满足的2n+2个条件，故可以确定一个次数不超过2n+1次的多项式:
+
+\[
+	H(x) = H_{2n+1}(x) = a_0 + a_1 x + \ldots + a_{2n+1} x^{2n+1}
+\]
+
+设基函数$\alpha_i(x),\beta_i(x)$满足如下调节:
+
+\begin{equation}
+	\notag
+	\left\{\begin{array}{l}
+	\alpha_{i}\left(x_{j}\right)=\delta_{i j}=\left[\begin{array}{ll}
+	0 & i \neq j \\
+	1 & i=j
+	\end{array}\right] \\
+	\alpha_{i}^{\prime}\left(x_{j}\right)=0 \\
+	\beta_{i}\left(x_{j}\right)=0 \\
+	\beta_{i}^{\prime}\left(x_{j}\right)=\delta_{i j}=\left[\begin{array}{ll}
+	0 & i \neq j \\
+	1 & i=j
+	\end{array}\right] \\
+	\end{array}\right.
+\end{equation}
+
+可以解得:
+
+\begin{equation}
+	H_{2n+1}(x) = \sum_{i=1}^n\left[y_i \left(1 - 2\left(x - x_i\right) \sum_{\substack{k=0 \\ k!=i}}^n
+	\frac{1}{x_i - x_k}\right)l_{i}^2 (x) + y_{i}^\prime (x - x_i)l_{i}^2 (x)\right]
+	\tag{2.13} \label{2.13}
+\end{equation}
+
+【定理2.4】 \quad 设$f(x)$在区间$[a,b]$内有$2n+2$阶导函数，且$f(x_i)=y_i,f'(x_i)=y'_i$已给，则下式成立:
+
+\begin{equation}
+	R_{2n+1}(x) = f(x) - H_{2n+1}(x) = \frac{f^{2n+2}(\xi)}{(2n+2)!}\omega_{n+1}^2(x)
+	\tag{2.14} \label{2.14}
+\end{equation}
+
+其中
+
+\[
+\omega_{n+1}(x) = \prod_{i=0}^n (x - x_i) 
+\]
+
+【定理2.5】 \quad 满足条件的插值多项式$H_{2n+1}(x)$是唯一的。
+
+\paragraph{ } 三次Hermite插值$H_3(x)$如下:
+
+\begin{equation}
+	H_3(x)=y_i\varphi_0(\frac{x-x_i}{h_i})+y_{i+1}\varphi_1(\frac{x-x_i}{h_i})+
+	h_iy'_i\Psi_0(\frac{x-x_i}{h_i})+h_iy'_{i+1}\Psi_1(\frac{x-x_i}{h_i})
+	\tag{2.15} \label{2.15}
+\end{equation}
+
+其中
+
+\begin{equation}
+	\begin{cases}
+	\begin{aligned}
+		&x_i \le x \le x_{i_1}\\
+		&\varphi_0(x)=(x-1)^2(2x+1), \qquad \varphi_1(x)=x^2(-2x+3)\\
+		&\Psi_0(x)=x(x-1)^2, \qquad \Psi_1(x)=x^2(x-1)\\
+		&h_i=x_{i+1}-x_i
+	\end{aligned}
+	\end{cases}
+	\notag
+\end{equation}
+
+
+\section{分段插值}
+
+\subsection{高次插值Runge现象}
+
+\paragraph{ } 在大范围内使用高次插值，效果往往不理想
+
+\subsection{分段插值概念}
+
+\paragraph{ } 随着插值结点的增多，插值多项式的次数必然也会随之而增加，
+而高次插值多项式会产生Runge现象，所以应该尽力避免高次插值多项式。
+
+可以采取分段插值的方式，将一个大区间分成若干个小区间，而在每一个小区间
+$[x_i,x_{i+1}]$构造一个插值多项式$p_i(x)(i=0,1,\ldots,n-1)$。 \\
+
+\subsection{线性分段插值}
+
+【问题2.6】 \quad 在划分$\Delta$的每个结点$x_i$上给出了相应的$y_i$，求一次多项式$s_1(x)$使得:
+
+\[
+	s_1 (x) = y_i \qquad x = 0, 1, \ldots , n
+\]
+
+此问题的解为:
+
+\begin{equation}
+	\begin{aligned}
+		s_1(x_i) = y_i \frac{x - x_{i+1}}{x_i - x_{i+1}} + y_{i+1} \frac{x - x_i}{x_{i+1} - x_i} \quad \quad x_i \leq x \leq x_{i+1}
+	\end{aligned}
+	\tag{2.16} \label{2.16}
+\end{equation}
+
+【定理2.6】 \quad 若$f(x)$有2阶导数，且是问题2.6的解，则有:
+
+\begin{equation}
+	|f(x) - s_1 (x)| \leq \frac{1}{8} 
+	h_i^2 \max_{x_i \leq x \leq x_{i+1}} |f^{\prime \prime}(x)| 
+	\tag{2.17} \label{2.17}
+\end{equation}
+
+
+\subsection{分段三次Hermite插值}
+
+【问题2.6】 \quad 在划分$\Delta$的每个结点$x_i$上给出了相应的函数值$y_i$和导数值$y_i$，求三次多项式$s_3(x)$使得:
+
+\begin{equation}
+	\begin{aligned}
+		s_3(x_i) = y_i \qquad s_3(x_{i+1}) = y_{i+1} \\
+		s'_3(x_i) = y'_i \qquad s'_3(x_{i+1}) = y'_{i+1}
+	\end{aligned}
+	\notag
+\end{equation}
+
+此问题的解为:
+
+\begin{equation}
+	\begin{aligned}
+		s_3 (x) = y_i \varphi_0 (\frac{x - x_i}{h_i}) + y_{i+1} \varphi_1 (\frac{x - x_i}{h_i}) + h_i y_i^\prime \Psi_0 (\frac{x - x_i}{h_i}) + h_i y_{i+1}^\prime \Psi_1 (\frac{x - x_i}{h_i})
+	\end{aligned}
+	\tag{2.18} \label{2.18}
+\end{equation}
+
+其中
+
+\begin{equation}
+	\begin{cases}
+	\begin{aligned}
+		&x_i \le x \le x_{i_1}\\
+		&\varphi_0(x)=(x-1)^2(2x+1), \qquad \varphi_1(x)=x^2(-2x+3)\\
+		&\Psi_0(x)=x(x-1)^2, \qquad \Psi_1(x)=x^2(x-1)\\
+		&h_i=x_{i+1}-x_i
+	\end{aligned}
+	\end{cases}
+	\notag
+\end{equation}
+
+【定理2.7】 \quad 若$f(x)$有4阶导数，且是问题2.7的解，则有:
+
+\begin{equation}
+	|f(x) - s_3 (x)| \leq \frac{h^4}{384} \max_{x_i \leq x \leq x_{i+1}}
+	 |f^{(4)}(x)| \quad \quad h = max h_i
+	\tag{2.19} \label{2.19}
+\end{equation}
+
+\chapter{数值积分}
+
+\section{机械求积公式和代数精度}
+
+\subsection{求积公式}
+
+\begin{enumerate}
+	\item 梯形公式
+	\[
+	\int_{a}^{b} f(x) dx \approx \frac{1}{2} (b - a)\left[f\left(a\right) + f\left(b\right)\right]
+	\]
+	\item 中矩形公式
+	\[
+	\int_{a}^{b} f(x) dx \approx \left(b - a\right) f\left(\frac{a+b}{2}\right)
+	\]
+	\item Simpson公式
+	\[
+	\int_{a}^{b} f(x) dx \approx \frac{1}{6}\left(b - a\right)\left[f\left(a\right) + 4f\left(\frac{a+b}{2}\right) + f\left(b\right)\right]
+	\]
+\end{enumerate}
+
+\paragraph{其一般形式如下所示}
+
+\[
+	\int_{a}^{b} f(x) dx \approx (b - a) \left[c_0 f(x_0) + c_1 f(x_1) + \ldots + c_n f(x_n)\right]
+\]
+
+其中
+
+\[
+	c_0 + c_1 + \ldots + c_n = 1
+\]
+
+即
+
+\begin{equation}
+	\begin{aligned}
+		\int_{a}^{b} f(x) dx \approx \sum_{i=0}^{n} A_i f(x_i)
+	\end{aligned}
+	\tag{3.1} \label{3.1}
+\end{equation}
+
+求积公式\eqref{3.1}也可写成如下形式
+
+\begin{equation}
+	\int_{a}^{b} f(x) dx \approx \sum_{i=0}^{n} A_i f(x_i) + R
+	\tag{3.2} \label{3.2}
+\end{equation}
+
+其中R为余项。
+
+\subsection{代数精度}
+
+【定义3.1】 \quad 如果求积公式\eqref{3.1} 对于一切次数小于等于m的多项式是准确的，
+且对于m+1次多项式不准确，则称该公式有m次代数精度。\\
+
+【定理3.1】 \quad 对于给定的n+1个互异结点
+\[
+	a = x_0 \le x_1 \le \dots \le x_1 = b
+\]
+总存在系数$A_0 , A_1 , \ldots , A_n$，使得求积公式\eqref{3.1}的代数精度最低为n。
+
+
+\section{求积公式的构造方法}
+
+\subsection{用解代数方程组的方法构造求积公式}
+
+\begin{equation}
+	\begin{cases}
+		A_0 + A_1 + \ldots + A_n = b - a \\
+		A_0 x_0 + A_1 x_1 + \ldots + A_n x_n = \frac{1}{2} \left(b^2 - a^2\right) \\
+		\vdots \\
+		A_0 x_{0}^{n} + A_1 x_{1}^{n} + \ldots + A_n x_{n}^{n} = \frac{1}{n + 1} \left(b^{n+1} - a^{n+1}\right)
+	\end{cases}
+	\tag{3.3} \label{3.3}
+\end{equation}
+
+
+\subsection{用插值方法构造求积公式}
+
+用$p_n(x)$代替$f_n(x)$
+
+\begin{equation}
+	\begin{aligned}
+		\int_{a}^{b} f(x) dx \approx \int_{a}^{b} p_n(x) dx
+	\end{aligned}
+	\tag{3.4} \label{3.4}
+\end{equation}
+
+\[
+	\int_{a}^{b} p_n(x) dx = \int_{a}^{b} \left[\sum_{i=0}^{n} f\left(x_i\right)l_i\left(x\right) \right] dx = \sum_{i=0}^{n} \int_{a}^{b}\left[f\left(x_i \right) l_i \left(x\right)\right]dx = \sum_{i=0}^{n}f(x_i)\int_{a}^{b}l_i(x)dx
+\]
+
+所以其求积系数为:
+
+\begin{equation}
+	\begin{aligned}
+		A_i = \int_{a}^{b} l_i(x) dx
+	\end{aligned}
+	\notag
+\end{equation} 
+
+【定理3.2】 \quad 形如式子\eqref{3.1}的求积公式至少具有n此代数精度的充要条件是它是插值型的。
+
+
+\section{Newton-Cotes求积公式}
+
+\subsection{Newton-Cotes公式}
+
+将积分区间[a, b]n等分，$h=(b - a)/n$ 为各小区间长度，$\quad x_k = a + kh$作为插值节点，得到如下求积公式:
+
+\begin{equation}
+	\begin{aligned}
+		\int_{a}^{b} f(x) dx \approx (b - a) \sum_{k=0}^n C_k f(x_k)
+	\end{aligned}
+	\tag{3.5} \label{3.5}
+\end{equation} 
+
+称式\eqref{3.5}为Newton-Cotes公式， 其中$C_k$为Cotes系数。
+
+\begin{equation} \tag{3.6} \label{3.6}
+	\begin{aligned}
+		C_k &= \frac{1}{b-a} \int_{a}^{b} \prod_{\substack{j = 0 \\ j \neq k}}^{n} \frac{x - x_j}{x_k - x_j}dx  \\
+		C_k &= \frac{(-1)^{n-k}}{n \cdot k! (n - k)!}\int_{0}^{n} \prod_{\substack{j=0 \\ j \neq k}}^{n} (t-j) dt
+	\end{aligned}
+\end{equation}
+
+n从$1 \to 4$的Cotes系数如下:
+
+\begin{center}
+	\begin{tabular}{cccccc}
+		\hline
+		n & $C_0(n)$ & $C_1(n)$ & $C_2(n)$ & $C_3(n)$ & $C_4(n)$\\
+		\hline
+		1 & 1/2 & 1/2 \\
+		\hline
+		2 & 1/6 & 2/3 & 1/6 \\
+		\hline
+		3 & 1/8 & 3/8 & 3/8 & 1/8 \\
+		\hline
+		4 & 7/90 & 16/45 & 2/15 & 16/45 & 7/90 \\
+		\hline
+	\end{tabular}
+\end{center}
+
+
+\subsection{Newton-Cotes公式的数值稳定性}
+
+\paragraph{ } 一个算法如果在计算的过程中舍入误差在一定的条件下能够得到控制，
+即舍入误差的增长不影响产生可靠的结果，则称它是数值稳定的。
+
+误差
+\begin{equation}
+	\begin{aligned}
+		\notag
+		\varepsilon_n = -(b-a)\sum_{i=0}^{n} C_k \varepsilon_k
+	\end{aligned}
+	\notag
+\end{equation}
+
+设$\varepsilon = \max_{0 \leq k \leq n} |\varepsilon_k|$则有:
+
+\[
+	|\varepsilon_n| \leq \varepsilon (b - a) \sum_{k=0}^{n}|C_k|
+\]
+
+当$1 \le k \le 8$时，$C_k$都是正数，有
+
+\[
+	|\varepsilon_n| \leq \varepsilon (b - a)
+\]
+
+故当n小于8时，Newton-Cotes公式有数值稳定性，而高阶的Newton-Cotes公式不是数值稳定的。
+
+\subsection{Newton-Cotes求积公式截断误差}
+
+\begin{equation} \tag{3.7} \label{3.7}
+	\begin{aligned}
+		R &= \int_{a}^{b} f(x) dx - \sum_{i=0}^{k}A_k f(x_k) = \int_{a}^{b} \frac{f^{(n+1)}(\xi)}{(n+1)!}\omega (x) dx \quad \xi \in [a, b]\\
+		&= \frac{h^{n+2}}{(n+1)!} \int_{0}^{n} f^{(n+1)}(\xi) \prod_{j=0}^{n} (t - j) dt \quad \xi \in [a, b]
+	\end{aligned}
+\end{equation}
+
+【定理3.3】 \quad 当n为偶数时，n阶Newton-Cotes求积公式代的数精度至少为n+1。
+
+几种低阶Newton-Cotes公式的截断误差
+
+\begin{enumerate}
+	\item 梯形公式截断误差
+	\[
+	R = \frac{1}{2}(b - a)^3 \int_{0}^{1} f^{\prime \prime} (\xi) t(t-1) dt = -\frac{1}{12} (b - a)^3 f^{\prime \prime} (\xi) , \quad \xi \in [a, b]
+	\]
+	\item Simpson公式截断误差
+	\[
+	R = \frac{f^{(4)}(\eta)}{4!} \int_{a}^{b} (x - a)\left(x - \frac{a+b}{2}\right)^2 (x - b) dx = -\frac{1}{90} \left(\frac{b-a}{2}\right)^5 f^{(4)}(\eta) \quad \eta \in [a, b]
+	\]
+	\item Cotes公式截断误差
+	\[
+	\int_{a}^{b} f(x) \approx \frac{1}{90} (b - a)\left[7f(a) + 32f(a+h) + 12f\left(\frac{a+b}{2}\right) + 32f(a+3h) + 7f(b)\right]
+	\]
+	\[
+	R = -\frac{8}{945}\left(\frac{a+b}{4}\right)^7 f^{(6)}(\eta) \quad \quad \eta \in [a, b]
+	\]
+\end{enumerate}
+
+
+\section{复化求积法}
+
+\subsection{复化求积公式}
+
+\begin{enumerate}
+	\item 复化梯形公式
+	\begin{equation} \tag{3.8} \label{3.8}
+		\begin{aligned}
+			\int_{x_k}^{x_{k+1}} f(x) dx &\approx \frac{1}{2}(x_{k+1} - x_k)\left[f(x_k) + f(x_{k+1})\right]\\
+			\int_{a}^{b} f(x) dx &= \sum_{i=0}^{n-1} \sum_{x_k}^{x_{k+1}} f(x) dx \approx \sum_{i=0}^{n-1} \frac{h}{2}\left[f(x_k) + f(x_{k+1})\right]  \\
+			&=\frac{h}{2} \left[f(a) + 2\sum_{k=1}^{n-1} f(x_k) +f(b) \right] = T_n
+		\end{aligned}
+	\end{equation}
+
+	\item 复化Simpson公式
+	\begin{equation} \tag{3.9} \label{3.9}
+		\begin{aligned}
+			\int_{a}^{b} f(x) dx \approx \frac{h}{3} \left[f(a) + 4\sum_{k=1}^{m} f(x_{2k-1}) + 2\sum_{k=1}^{m-1}f(x_{2k}) +f(b)\right] = S_n
+		\end{aligned}
+	\end{equation}
+
+	\item 复化Cotes公式
+	\begin{equation} \tag{3.10} \label{3.10}
+		\begin{aligned}
+			\int_{a}^{b} f(x) dx=\frac{1}{90} \times 4 h\left[7 f(a)+32 \sum_{k=1}^{m} f\left(x_{4 k-3}\right)+12 \sum_{k=1}^{m} f\left(x_{4 k-2}\right)+\right. \\
+			\left.\quad 32 \sum_{k=1}^{m} f\left(x_{4 k-1}\right)+14 \sum_{k=1}^{m-1} f\left(x_{4 k}\right)+7 f(b) \quad\right]=C_{n}
+		\end{aligned}
+	\end{equation}
+\end{enumerate}
+
+\subsection{复化求积公式截断误差}
+
+\begin{enumerate}
+	\item 复化梯形公式截断误差
+	\begin{equation} \tag{3.11} \label{3.11}
+		\begin{aligned}
+			R_T \approx -\frac{1}{12}(b - a)h^2 f^{\prime \prime} (\eta) \quad \eta \in [a, b]
+		\end{aligned}
+	\end{equation}
+
+	\item 复化Simpson公式截断误差
+	\begin{equation} \tag{3.12} \label{3.12}
+		\begin{aligned}
+			R_S \approx -\frac{1}{180}(b - a)\left(\frac{h}{2}\right)^4 f^{(4)}(\eta) \quad \eta \in [a, b]
+		\end{aligned}
+	\end{equation}
+
+	\item 复化Cotes公式截断误差
+	\begin{equation} \tag{3.13} \label{3.13}
+		\begin{aligned}
+			R_C \approx -\frac{2}{945}(b - a)\left(\frac{h}{4}\right)^6 f^{(6)}(\eta) \quad \eta \in [a, b]
+		\end{aligned}
+	\end{equation}
+\end{enumerate}
+
+\section{Romberg求积公式及算法}
+
+\subsection{梯形法的递推化}
+
+\begin{equation}
+	\begin{cases}
+		\begin{aligned}
+			T_{k1} &= \frac{h}{2} \left[f(x_k) + f(x_{k+1})\right] \\
+			T_{k2} &= \frac{h}{4} \left[f(x_k) + 2f(x_{k+\frac{1}{2}}) + f(x_{k+1})\right]
+		\end{aligned}
+	\end{cases}
+	\notag
+\end{equation}
+
+因而
+
+\[
+T_{k2} = \frac{1}{2} T_{k1} + \frac{h}{2} f(x_{k+ \frac{1}{2}})
+\]
+
+由此可以一步一步二分得到更精确的结果。
+
+\subsection{Romberg公式}
+
+梯形法的递推化速度过慢，用Romberg公式能大大加快速度。首先以梯形法的递推化得到的几组值作为$T_m^{(0)}$
+
+\paragraph{复化Simpson的积分值}
+
+\begin{equation} 
+	T_m^{(1)}: \quad S_n = \frac{4}{3} T_{2n} - \frac{1}{3} T_n
+	\tag{3.14} \label{3.14}
+\end{equation}
+
+\paragraph{复化Cotes的积分值}
+
+\begin{equation}
+	T_m^{(2)}: \quad C_n = \frac{16}{15} S_{2n} - \frac{1}{15} S_n
+	\tag{3.15} \label{3.15}
+\end{equation}
+
+\[\vdots\]
+
+\[
+	T_m^{(3)}: \quad C_n = \frac{64}{63} S_{2n} - \frac{1}{63} S_n
+\]
+
+\paragraph{Romberg积分法}
+
+\begin{equation} \tag{3.16} \label{3.16}
+	\left\{\begin{array}{l}
+	T_{0}^{(0)}=\frac{b-a}{2}[f(a)+f(b)] \\
+	\text{对于} \quad m=1,2, \cdots, \text { 依次计算 } \\
+	(1) \quad h_{m}=\frac{b-a}{2^{m}} \\
+	(2) \quad T_{m}^{(0)}=\frac{1}{2} T_{m-1}^{(0)}+h_{m} \sum_{i=1}^{2 m-1} f\left(a+\left(2 i-1\right) h_{m}\right) \\
+	(3) \quad T_{m-j}^{(j)}=\frac{T_{m-j+1}^{(j-1)}-\left(\frac{1}{2}\right)^{(2 j)} T_{m-j}^{(j-1)}}{1-\left(\frac{1}{2}\right)^{2 j}}=\frac{4 T_{m-j+1}^{(j-1)}-T_{m-j}^{(j-1)}}{4-1} \quad j=1,2, \cdots, m
+	\end{array}\right.
+\end{equation}
+
+
+\chapter{常微分方程数值解法}
+
+重点：一阶方程的初值问题
+
+\begin{equation}
+	\begin{cases}
+		\begin{aligned}
+			&y' = f(x,y)\\
+			&y(x_0)=y_0
+		\end{aligned}
+	\end{cases}
+	\notag
+\end{equation}
+
+\section{尤拉法、隐式尤拉法和二步尤拉法}
+
+\subsection{尤拉法}
+
+\begin{equation} \tag{4.1} \label{4.1}
+	\begin{cases}
+		y_{n+1} = y_n + hf(x_n , y_n) \\
+		y_0 = y(x_0)
+	\end{cases}
+\end{equation}
+
+\subsection{隐式尤拉法}
+
+\begin{equation} \tag{4.2} \label{4.2}
+	\begin{cases}
+		y_{n+1} = y_n + hf(x_{n+1} , y_{n+1}) \\
+		y_0 = y(x_0)
+	\end{cases}
+\end{equation}
+
+隐式尤拉法不能直接求解，可以采用下面两种方法进行实际计算:
+
+\begin{enumerate}
+	\item 隐式化显式\\
+	如同解方程一样，将未知数的$y_{n+1}$都移到一边，产生一个显式递推公式。适用于$f(x,y)$比较简单的情形。
+	\item 预报-校正法
+	\begin{equation}
+		\notag
+		\begin{cases}
+			\overline{y}_{n+1} = y_n + hf(x_n, y_n) \\
+			y_{n+1} = y_n + hf(x_{n+1}, \overline{y}_{n+1}) \\
+			y_0 = y(x_0)
+		\end{cases}
+	\end{equation}
+\end{enumerate}
+
+\subsection{二步欧拉法}
+\begin{equation}
+	\notag
+	\begin{cases}
+		y_{n+1} = y_{n-1} + 2hf(x_n , y_n) \\
+		y_0 = y(x_0)
+	\end{cases}
+\end{equation}
+
+
+\subsection{局部截断误差与精度}
+
+【定义4.1】 \quad 对于求解一阶常微分方程初值问题的某以计算方法，
+若假定在求$y_{n+1}$的递推公式中等式右边的所有的量为精确的，在此前提下
+$y(x_{n+1}-y_{n+!})$称为此方法的局部截断误差。若局部截断误差为$O(h^{p+1})$，
+则称此方法的精度为p阶。
+
+欧拉法、隐式欧拉法精度为1阶，二步欧拉法精度为2阶。
+
+
+\section{改进的尤拉法}
+
+\subsection{梯形公式}
+
+\begin{equation}
+	\begin{aligned}
+		y_{n+1} = y_n + \frac{h}{2} \left[f(x_n, y_n) + f(x_{n+1}, y_{n+1})\right]
+	\end{aligned}
+	\tag{4.3} \label{4.3}
+\end{equation}
+
+性质:
+
+\begin{enumerate}
+	\item 梯形公式是欧拉法和隐性欧拉法的算术平均
+	\item 梯形公式精度为2阶
+\end{enumerate}
+
+\subsection{改进的尤拉法}
+
+\begin{enumerate}
+	\item 嵌套形式
+	\[
+		y_{n+1} = y_n +\frac{h}{2} \left[f(x_n , y_n ) + f(x_{n+1}, y_n + hf(x_n , y_n) )\right]
+	\]
+
+	\item 平均化公式
+	\begin{equation}
+		\begin{cases}
+			y_p = y_n + hf(x_n , y_n) \\ 
+			y_c = y_n + hf(x_{n+1}, y_p) \\
+			y_{n+1} = \frac{1}{2} \left(y_p + y_c\right)
+		\end{cases}
+		\notag
+	\end{equation}
+\end{enumerate}
+
+以上为两种等价的形式，改进的尤拉法精度为2阶
+
+
+\section{Runge-Kutta法}
+
+\subsection{Runge-Kutta基本思想}
+
+\begin{equation}
+	\notag
+	\begin{cases}
+		y^{\prime}(x) = f(x, y) \\ 
+		y(x_0) = y_0
+	\end{cases}
+\end{equation}
+
+利用泰勒展开:
+\[
+	y(x_{n+1}) = y(x_n) + hy'(\xi) \qquad (x_n \le \xi \le x_{n+1})
+\]
+
+实际计算中由于$\xi$无法准确计算，可以利用$[x_n,x_{n+1}]$间的导数值来近似代替$\xi$
+
+\subsection{二阶Runge-Kutta方法}
+
+\begin{equation}
+	\begin{cases}
+		y_{n+1} = y_n + h\left((1 - \lambda)k_1 + \lambda k_2\right) \\
+		k_1 = f(x_n, y_n) \\
+		k_2 = f(x_{n}+ph, y_{n}+phk_1)
+	\end{cases}
+	\notag
+\end{equation}
+
+其中
+\[
+	\lambda p = \frac{1}{2}
+\]
+
+\paragraph{两种常用的二阶Runge-Kutta法:}
+
+\begin{enumerate}
+	\item 改进欧拉法 \\
+	当取$\lambda = \frac{1}{2}, p = 1$时
+	\begin{equation}
+		\notag
+		\begin{cases}
+			y_{n+1} = y_n + \frac{h}{2} (k_1 + k_2) \\
+			k_1 = f(x_n , y_n) \\
+			k_2 = f(x_{n}+h, y_{n}+hk_1)
+		\end{cases}
+	\end{equation}
+
+	\item 变形的欧拉法 \\
+	当取$\lambda = 1, p = \frac{1}{2}$时
+	\begin{equation}
+		\notag
+		\begin{cases}
+			y_{n+1} = y_n + hk_2 \\
+			k_1 = f(x_n , y_n) \\
+			k_2 = f(x_{n}+\frac{h}{2}, y_{n}+\frac{h}{2}k_1)
+		\end{cases}
+	\end{equation}
+\end{enumerate}
+
+\subsection{高阶Runge-Kutta法}
+
+\paragraph{3阶Runge-Kutta方程}
+
+\begin{equation}
+	\notag
+	\left\{\begin{array}{l}
+	y_{n+1}=y_{n}+c_{1} k_{1}+c_{2} k_{2}+c_{3} k_{3} \\
+	k_{1}=h f\left(x_{n}, y_{n}\right) \\
+	k_{2}=h f\left(x_{n}+a_{2} h, y_{n}+b_{21} k_{1}\right) \\
+	k_{3}=h f\left(x_{n}+a_{3} h, y_{n}+b_{31} k_{1}+b_{32} k_{2}\right)
+	\end{array}\right.
+\end{equation}
+
+其中:
+
+\begin{equation}
+	\notag
+	\left\{\begin{array}{l}
+	c_{1}+c_{2}+c_{3}=1 \\
+	a_{2}=b_{21} \\
+	a_{3}=b_{31}+b_{32} \\
+	c_{2} a_{2}+c_{3} a_{3}=\frac{1}{2} \\
+	c_{2} a_{2}+c_{3} a_{3}^{2}=\frac{1}{3} \\
+	c_{3} b_{32} a_{2}=\frac{1}{6}
+	\end{array}\right.
+\end{equation}
+
+\paragraph{常用3阶Runge-Kutta公式}
+
+~\\
+
+库塔公式:
+\begin{equation}
+	\notag
+	\left\{\begin{array}{l}
+	y_{n+1}=y_{n}+\frac{1}{6}\left(k_{1}+4 k_{2}+k_{3}\right) \\
+	k_{1}=h f\left(x_{n}, y_{n}\right) \\
+	k_{2}=h f\left(x_{n}+\frac{1}{2} h, y_{n}+\frac{1}{2} k_{1}\right) \\
+	k_{3}=h f\left(x_{n}+h, y_{n}-k_{1}+2 k_{2}\right)
+	\end{array}\right.
+\end{equation}
+
+\paragraph{常用4阶Runge-Kutta公式}
+
+~\\
+
+经典公式:
+\begin{equation}
+	\notag
+	\left\{\begin{array}{l}
+	y_{n+1}=y_{n}+\frac{1}{6}\left(k_{1}+2 k_{2}+2 k_{3}+k_{4}\right) \\
+	k_{1}=h f\left(x_{n}, y_{n}\right) \\
+	k_{2}=h f\left(x_{n}+\frac{h}{2}, y_{n}+\frac{k_{1}}{2}\right) \\
+	k_{3}=h f\left(x_{n}+\frac{h}{2}, y_{n}+\frac{k_{2}}{2}\right) \\
+	k_{4}=h f\left(x_{n}+h, y_{n}+k_{3}\right)
+	\end{array}\right.
+\end{equation}
+
+~\\
+
+Gill公式:
+\begin{equation}
+	\notag
+	\left\{\begin{array}{l}
+	y_{n+1}=y_{n}+\frac{1}{6}\left[k_{1}+(2-\sqrt{2}) k_{2}+(2+\sqrt{2}) k_{3}+k_{4}\right] \\
+	k_{1}=h f\left(x_{n}, y_{n}\right) \\
+	k_{2}=h f\left(x_{n}+\frac{h}{2}, y_{n}+\frac{k_{1}}{2}\right) \\
+	k_{3}=h f\left(x_{n}+\frac{h}{2}, y_{n}+\frac{\sqrt{2}-1}{2} k_{1}+\frac{2-\sqrt{2}}{2} k_{2}\right) \\
+	k_{4}=h f\left(x_{n}+h, y_{n}-\frac{\sqrt{2}}{2} k_{2}+\frac{2+\sqrt{2}}{2} k_{3}\right)
+	\end{array}\right.
+\end{equation}
+
+
+\subsection{变步长Runge-Kutta法}
+
+取h为步长，截断误差为:
+\[
+	y = y(x_{n+1}) - y_{n+1}^{(h)} \approx ch^{p+1}
+\]
+
+之后取$\frac{h}{2}$为步长，截断误差为:
+\[
+	y = y(x_{n+1}) - y_{n+1}^{(h/2)}  = 2c(\frac{h}{2})^{p+1}
+\]
+
+由此可得到下列估计式:
+\[
+	y(x_{n+1}) - y_{n+1}^{(h/2)} \approx \frac{1}{2^p - 1}\left[y_{n+1}^{(h/2)} - y_{n+1}^{(h)}\right]
+\]
+
+前后两次的偏差为:
+\[
+	\Delta = \frac{1}{2^p - 1}\left[y_{n+1}^{(\frac{h}{2})} - y_{n+1}^{(h)}\right]
+\]
+
+\begin{enumerate}
+	\item 对于给定的$\epsilon$，如果$\Delta \ge \epsilon$，将步长折半反复进行计算，
+	直至$\Delta \le \epsilon$为止，这时取最终得到的$y_{n+1}^{(h/2)}$为结果。
+	\item 如果$\Delta \le \epsilon$，若将步长反复加倍，直到$\Delta \ge \epsilon$为止，
+	这时再将步长折半一次，就得到所要的结果。
+\end{enumerate}
+
+
+\section{收敛性和稳定性}
+
+\subsection{收敛性}
+
+【定义4.2】 \quad 若单步法对任意固定的$x_n = x_0 + nh$，如果数值有解，
+数值解$y_n$当$h \to 0$ 时趋向于准确解$y(x_n)$，则称该单步法为收敛。 
+
+~\\
+
+【定义4.3】 \quad 在单步法中定义$|y(x_n) - y_n|$为$y_n$整体的截断误差。
+
+~\\
+
+【定理4.2】 \quad 假设单步法具有p阶精度，且满足利普希茨条件:
+\[
+	|\varphi(x, y, h) - \varphi(x, \overline{y}, h)| \leq L_\varphi |y - \overline{y}|
+\]
+且初值$y_0 = y(x_0)$是准确的,则其整体截断误差为:
+\begin{equation}
+	y(x_n) - y_n = O(h^p)
+	\tag{4.4} \label{4.4}
+\end{equation}
+
+\subsection{稳定性}
+
+【定义4.4】 \quad 若一种数值方法在节点$x_n$处的数值解答$y_n$的初值解$y_n$有大小为$\delta_n$的扰动，
+而在以后的节点值$y_m ~ (m > n)$产生的扰动绝对值不超过$|\delta_n|$，即
+\[
+	|\delta_m| \leq |\delta_n|
+\]
+则称该数值方法是稳定的。
+
+\paragraph{部分稳定条件:}
+
+\begin{enumerate}
+	\item 尤拉法： \qquad \(0 \le h \le - \frac{2}{\lambda}\)
+	\item 隐式尤拉法： \qquad 恒成立
+	\item 梯型公式： \qquad 恒成立
+	\item 标准4阶Runge-Kutta公式： \qquad 约为\(0 \le h \le - \frac{2.78}{\lambda}\)
+\end{enumerate}
+
+
+\chapter{方程求根}
+
+
+\section{根的隔离与二分法}
+
+\subsection{根的隔离}
+
+【定理5.1】 \quad 若$f(x)$在$[a,b]$上连续，且$f(a)*f(b) < 0$，则方程$f(x)=0$在$[a,b]$内至少有一个根。
+
+\begin{enumerate}
+	\item 图解法 \\
+	画出$y=f(x)$的粗略图，从而确定曲线$y=f(x)$与x轴的交点的粗略位置$x_0$，作为近似值。
+	\item 试验法 \\
+	在某一区间中，取一些适当的数来试验。
+\end{enumerate}
+
+
+\subsection{二分法}
+
+\paragraph{基本思路}:逐步将含有$x^*$的区间进行二分，通过判断函数值的符号，逐步对半缩小有根区间，
+直到区间缩小到误差允许范围内，然后以区间中点作为$x^*$的近似值。
+
+取区间$[a,b]$的中点$x_0=\frac{1}{2}(a+b)$，区间$[a_k , b_k]$的长度为
+
+\[
+	b_k - a_k = \frac{1}{2^k}(b - a)
+\]
+
+又有$x_k = \frac{1}{2}(a_k + b_k)$，所以
+
+\[
+	\lim_{k \to \infty} x_k = x^*
+\]
+
+误差估计式
+
+\[
+	|x^* - x_k| \leq \frac{1}{2^{1+k}}(b-a)
+\]
+
+
+
+\section{迭代法及其收敛性}
+
+\subsection{迭代法的基本概念}
+
+迭代法是指，用某种收敛于所给问题的精确解的极限过程，来逐步逼近的一种计算方法。
+
+对于一般形式的方程
+
+\[
+	f(x) = 0
+\]
+
+先转化成等价的
+
+\[
+	x = g(x)
+\]
+
+再从$x_0$出发，作序列$\{x_n\}$
+
+\[
+	x_{n+1} = g(x_n) \quad (n=0, 1, 2, \ldots)
+\]
+
+设
+
+\[
+a = \lim_{n \to \infty} 
+\]
+
+可得
+
+\[
+	a=g(a)
+\]
+
+所以
+
+\[
+	f(a) = 0
+\]
+
+【定理5.2】若迭代函数连续，那么，当选取$x_0$后若生成的序列${x_n}$收敛，则一定收敛到根$x^*$上。
+
+
+\subsection{迭代法过程的收敛性}
+
+【定理5.3】设迭代函数$\varphi(x)$在$[a, b]$上具有连续的一阶导数，且
+
+\qquad \qquad \quad (1) 当$x \in [a, b]$时， $a \leq \varphi(x) \leq b$
+
+\qquad \qquad \quad (2) 存在正数$L < 1$，使对任意$x \in [a,b]$，有
+
+\[
+	|\varphi^{\prime}(x)|\leq L <1
+\]
+
+成立，则$\varphi(x)$在$[a, b]$上具有唯一解$x^*$，且对任意初始近似值$x_0 \in [a,b]$，迭代过程收敛，且
+
+\[
+	\lim_{k \to \infty}x_k = x^*
+\]
+
+【定理5.4】误差估计式
+
+\begin{equation}
+	\begin{aligned}
+		|x^* - x_k| &\leq \frac{1}{1-L}|x_{k+1} - x_k|\\
+		|x^* - x_k| &\leq \frac{L^k}{1-L}|x_1 - x_0|
+	\end{aligned}
+	\notag
+\end{equation}
+
+
+【定理5.5】设$\varphi(x)$在$x=\varphi(x)$的根$x^*$邻近有连续的一阶导数，且
+
+\[
+	|\varphi'(x^*)| < 1
+\]
+
+则迭代过程具有局部收敛性。
+
+
+\section{收敛速度及收敛过程的加速}
+
+\subsection{迭代的收敛速度}
+
+【定义5.1】设序列$\{x_k\}$是收敛于方程$f(x) = 0$的根$x^*$的迭代序列，即$x^* = \lim_{k \to \infty}x_k$。
+记$\varepsilon_k = x_k - x^*$表示各步的迭代误差。
+
+若有某个实数p和非零常数C，使
+
+\[
+	\lim_{k \to \infty} \frac{\varepsilon_{k+1}}{\varepsilon_{k}^p} = C \quad \quad (C \neq 0)
+\]
+
+则称序列${x_k}$是p阶收敛的。p越大收敛速度就越快。
+
+~\\
+
+【定理5.6】对于迭代过程，如果迭代函数$\varphi(x)$在所求根$x^*$的邻近有连续的二阶导数，且
+
+\[
+	|\varphi^\prime(x^*)| < 1
+\]
+
+则有
+
+\begin{enumerate}
+	\item 当$\varphi^\prime(x^*) \neq 0$时，迭代过程为线性收敛。
+	\item 当$\varphi^\prime(x^*) = 0$，而$\varphi^{\prime\prime}(x^*) \neq 0$时，迭代过程为线性收敛。
+\end{enumerate}
+
+推导到一般情况，有如下定理
+
+【定理5.7】设$x^*$是方程$x=\varphi(x)$的根，在$x^*$的某一临域，$\varphi(x)$的$m (m \geq 2)$阶导数连续，且
+
+\[
+	\varphi^\prime(x^*) = \ldots = \varphi^{(m-1)}(x^*) = 0
+\]
+
+\[
+	\varphi^{(m)}(x^*) \neq 0 
+\]
+
+则有m阶收敛。
+
+
+\subsection{收敛过程的加速}
+
+假定$g'(x)$在某范围内近似为a，则误差：
+
+\[
+	x^* - \overline{x}_{k+1} \approx \frac{a}{1-a}(\overline{x}_{k+1} - x_k)
+\]
+
+将误差结果作为补偿，则
+
+\begin{equation}
+	\notag
+	\begin{aligned}
+		x_{k+1} &= \overline{x}_{k+1} + \frac{a}{1-a}(\overline{x}_{k+1} - x_k) \\
+		& = \frac{1}{1-a}\overline{x}_{k+1} - \frac{a}{1-a}x_k
+	\end{aligned}
+\end{equation}
+
+\paragraph{此过程可归纳为：}
+
+\begin{center}
+	\begin{equation}
+		\begin{cases}
+			\begin{tabular}{lc}
+				迭代: & $\bar{x}_{k+1}=g\left(x_{k}\right)$ \\
+				~\\
+				改进: & $x_{k+1}=\bar{x}_{k+1}+\frac{a}{1-a}\left(\bar{x}_{k+1}-x_k\right)$
+			\end{tabular}
+		\end{cases}
+		\notag
+	\end{equation}
+\end{center}
+
+~\\
+
+\paragraph{Aitken加速法：}
+
+\begin{center}
+	\begin{equation}
+		\begin{cases}
+			\begin{tabular}{lc}
+				迭代: & $x_{k+1}^{(1)}=g\left(x_{k}\right)$ \\
+				~\\
+				迭代: & $x_{k+1}^{(2)}=g\left(x_{k+1}^{(1)}\right)$ \\
+				~\\
+				改进: & $x_{k+1}=x_{k+1}^{(2)}-\frac{\left(x_{k+1}^{(2)}-x_{k+1}^{(1)}\right)^{2}}{x_{k+1}^{(2)}-2 x_{k+1}^{(1)}+x_{k}}$
+			\end{tabular}
+		\end{cases}
+		\notag
+	\end{equation}
+\end{center}
+
+
+\section{牛顿法}
+
+\subsection{牛顿法的构造及牛顿迭代公式}
+
+\[
+	\varphi(x) = x - \frac{f(x)}{f^\prime(x)}
+\]
+
+\subsection{牛顿法的收敛性和收敛速度}
+
+【定理5.8】在牛顿法中，若$x^*$是方程$f(x)=0$的一个单根，并且$f(x)$在$x^*$及其附近有连续的二阶导数，则牛顿法具有局部收敛性。
+
+~\\
+
+【定理5.9】若对于方程$f(x) = 0$，如果在单根$x^*$附近有连续的二阶导，则牛顿法至少平方收敛，若$f''(x) \neq 0$，则牛顿法平方收敛。
+
+\subsection{初始值的选取}
+
+如果
+\[
+	|f^\prime(x_0)|^2 > |\frac{f^{\prime \prime}(x_0)}{2}| | f(x_0)|
+\]
+
+且$f^{\prime \prime}(x_0) \neq 0$，则可以选择$x_0$作为初始值。
+
+
+\subsection{牛顿法下山法}
+
+为满足函数值单调下降，将牛顿法计算结果
+
+\[
+	\overline{x}_{k+1} = x_k - \frac{f(x_k)}{f^\prime(x_k)}
+\]
+
+与前一步的值$x_k$加权平均
+
+\[
+	x_{k+1} = \lambda \overline{x}_{k+1} + (1 - \lambda)x_k
+\]
+
+或
+
+\[
+	x_{k+1} = x_k - \lambda \frac{f(x_k)}{f^\prime(x_k)}
+\]
+
+其中$0 < \lambda \leq 1$称下山因子。
+
+
+\end{document}
